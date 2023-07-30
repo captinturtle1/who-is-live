@@ -31,6 +31,23 @@ export default function App() {
     }
   }
 
+  const handleRemove = (platform, index) => {
+    if (platform == 0) {
+      let newArray = addedTwitch;
+      newArray.splice(index, 1);
+      setAddedTwitch([...newArray]);
+    } else if (platform == 1) {
+      let newArray = addedYoutube;
+      newArray.splice(index, 1);
+      setAddedYoutube([...newArray]);
+    } else if (platform == 2) {
+      let newArray = addedKick;
+      newArray.splice(index, 1);
+      setAddedKick([...newArray]);
+    }
+    
+  }
+
   return (
     <div className="bg-blue-300 text-white h-screen flex flex-col gap-8">
       <div className="m-auto flex flex-col gap-8">
@@ -49,10 +66,25 @@ export default function App() {
           <div onClick={() => setPlatformSelected(1)} className={platformSelected == 1 ? "bg-red-500 p-2 cursor-pointer" : "bg-red-700 p-2 cursor-pointer text-zinc-300"}>Youtube</div>
           <div onClick={() => setPlatformSelected(2)} className={platformSelected == 2 ? "bg-green-500 p-2 cursor-pointer" : "bg-green-700 p-2 cursor-pointer text-zinc-300"}>Kick</div>
         </div>
-        <div>
-          <div>Twitch: {addedTwitch}</div>
-          <div>Youtube: {addedYoutube}</div>
-          <div>Kick: {addedKick}</div>
+        <div className="flex">
+          <div className="">Twitch: {addedTwitch.map((value, index) => 
+            <div className="flex">
+              <div className="mr-auto">{value}</div>
+              <div onClick={() => handleRemove(0, index)} className="ml-5 text-red-500 font-black text-xl cursor-pointer">x</div>
+            </div>
+          )}</div>
+          <div className="">Youtube: {addedYoutube.map((value, index) => 
+            <div className="flex">
+              <div className="mr-auto">{value}</div>
+              <div onClick={() => handleRemove(1, index)} className="ml-5 text-red-500 font-black text-xl cursor-pointer">x</div>
+            </div>
+          )}</div>
+          <div className="">Kick: {addedKick.map((value, index) => 
+            <div className="flex">
+              <div className="mr-auto">{value}</div>
+              <div onClick={() => handleRemove(2, index)} className="ml-5 text-red-500 font-black text-xl cursor-pointer">x</div>
+            </div>
+          )}</div>
         </div>
       </div>
     </div>

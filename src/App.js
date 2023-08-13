@@ -8,6 +8,13 @@ export default function App() {
   const [kickList, setKickList] = useState([]);
 
   const [isAddRemoveOpen, setIsAddRemoveOpen] = useState(false);
+
+  const setLists = (newData) => {
+    setTwitchList([...newData[0]]);
+    setYoutubeList([...newData[1]]);
+    setKickList([...newData[2]]);
+  }
+
   return (
     <div className='h-screen flex flex-col bg-slate-800'>
       <button onClick={() => setIsAddRemoveOpen(true)} className='mx-auto p-2 text-white bg-blue-500 rounded-lg my-5'>Edit</button>
@@ -15,12 +22,8 @@ export default function App() {
         {isAddRemoveOpen ?
           <AddRemove
             setIsAddRemoveOpen={setIsAddRemoveOpen}
-            twitchList={twitchList}
-            setTwitchList={setTwitchList}
-            youtubeList={youtubeList}
-            setYoutubeList={setYoutubeList}
-            kickList={kickList}
-            setKickList={setKickList}
+            setLists={setLists}
+            currentLists={[twitchList, youtubeList, kickList]}
           /> 
         : 
           <></>

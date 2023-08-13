@@ -14,7 +14,7 @@ const ChannelList = ({id, list, handleRemove}) => {
   )
 }
 
-export default function AddRemove({setIsAddRemoveOpen, twitchList, setTwitchList, youtubeList, setYoutubeList, kickList, setKickList}) {
+export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) {
   // twitch 1, youtube 2, kick 3
   const [platformSelected, setPlatformSelected] = useState(0);
   const [userInput, setUserInput] = useState('');
@@ -24,9 +24,9 @@ export default function AddRemove({setIsAddRemoveOpen, twitchList, setTwitchList
   const [addedKick, setAddedKick] = useState([]);
 
   useEffect(() => {
-    setAddedTwitch([...twitchList]);
-    setAddedYoutube([...youtubeList]);
-    setAddedKick([...kickList]);
+    setAddedTwitch([...currentLists[0]]);
+    setAddedYoutube([...currentLists[1]]);
+    setAddedKick([...currentLists[2]]);
   }, [])
 
   const handleUserInput = (e) => {
@@ -72,9 +72,7 @@ export default function AddRemove({setIsAddRemoveOpen, twitchList, setTwitchList
   }
 
   const handleSave = () => {
-    setTwitchList([...addedTwitch]);
-    setYoutubeList([...addedYoutube]);
-    setKickList([...addedKick]);
+    setLists([addedTwitch, addedYoutube, addedKick])
     setIsAddRemoveOpen(false)
   }
 

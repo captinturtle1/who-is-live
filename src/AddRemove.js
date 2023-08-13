@@ -72,8 +72,8 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
   }
 
   const handleSave = () => {
-    setLists([addedTwitch, addedYoutube, addedKick])
-    setIsAddRemoveOpen(false)
+    setLists([addedTwitch, addedYoutube, addedKick]);
+    setIsAddRemoveOpen(false);
   }
 
   return (

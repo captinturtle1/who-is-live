@@ -77,29 +77,31 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
   }
 
   return (
-    <div className="fixed m-auto left-0 right-0 top-0 bottom-0 flex flex-col gap-8 bg-slate-600 w-[700px] h-[500px] rounded-lg p-16 text-white">
-      <form className="flex gap-5 m-auto">
-        <input
-          value={userInput}
-          onChange={handleUserInput}
-          placeholder="Channel"
-          className="bg-black p-2"
-        />
-        <button type="button" onClick={addChannel} className="bg-blue-500 p-2 cursor-pointer">add</button>
-      </form>
-      <div className="flex gap-2 justify-center">
-        <button onClick={() => setPlatformSelected(0)} className={platformSelected === 0 ? "bg-purple-500 p-2 cursor-pointer -translate-y-1 transition-all" : "bg-purple-700 p-2 cursor-pointer300 transition-all"}>Twitch</button>
-        <button onClick={() => setPlatformSelected(1)} className={platformSelected === 1 ? "bg-red-500 p-2 cursor-pointer -translate-y-1 transition-all" : "bg-red-700 p-2 cursor-pointer transition-all"}>Youtube</button>
-        <button onClick={() => setPlatformSelected(2)} className={platformSelected === 2 ? "bg-green-500 p-2 cursor-pointer -translate-y-1 transition-all" : "bg-green-700 p-2 cursor-pointer transition-all"}>Kick</button>
-      </div>
-      <div className="flex gap-8 m-auto text-center overflow-scroll h-[200px]">
-        <ChannelList id={0} list={addedTwitch} handleRemove={handleRemove}/>
-        <ChannelList id={1} list={addedYoutube} handleRemove={handleRemove}/>
-        <ChannelList id={2} list={addedKick} handleRemove={handleRemove}/>
-      </div>
-      <div className="flex gap-8">
-        <button onClick={handleCancel} className='ml-auto p-2 text-white bg-blue-500 rounded-lg my-5'>Cancel</button>
-        <button onClick={handleSave} className='mr-auto p-2 text-white bg-blue-500 rounded-lg my-5'>Save</button>
+    <div className="fixed left-0 right-0 top-0 bottom-0 flex gap-8 bg-black backdrop-blur bg-opacity-10 text-white">
+      <div className="flex flex-col gap-8 bg-slate-600 rounded-3xl m-auto p-32">
+        <form className="flex gap-5 m-auto">
+          <input
+            value={userInput}
+            onChange={handleUserInput}
+            placeholder="Channel"
+            className="bg-black p-2"
+          />
+          <button type="button" onClick={addChannel} className="bg-blue-500 p-2 cursor-pointer">add</button>
+        </form>
+        <div className="flex gap-2 justify-center">
+          <button onClick={() => setPlatformSelected(0)} className={platformSelected === 0 ? "bg-purple-500 p-2 cursor-pointer -translate-y-1 transition-all" : "bg-purple-700 p-2 cursor-pointer300 transition-all"}>Twitch</button>
+          <button onClick={() => setPlatformSelected(1)} className={platformSelected === 1 ? "bg-red-500 p-2 cursor-pointer -translate-y-1 transition-all" : "bg-red-700 p-2 cursor-pointer transition-all"}>Youtube</button>
+          <button onClick={() => setPlatformSelected(2)} className={platformSelected === 2 ? "bg-green-500 p-2 cursor-pointer -translate-y-1 transition-all" : "bg-green-700 p-2 cursor-pointer transition-all"}>Kick</button>
+        </div>
+        <div className="flex gap-8 m-auto text-center overflow-scroll h-[200px]">
+          <ChannelList id={0} list={addedTwitch} handleRemove={handleRemove}/>
+          <ChannelList id={1} list={addedYoutube} handleRemove={handleRemove}/>
+          <ChannelList id={2} list={addedKick} handleRemove={handleRemove}/>
+        </div>
+        <div className="flex gap-8">
+          <button onClick={handleCancel} className='ml-auto p-2 text-white bg-blue-500 rounded-lg my-5'>Cancel</button>
+          <button onClick={handleSave} className='mr-auto p-2 text-white bg-blue-500 rounded-lg my-5'>Save</button>
+        </div>
       </div>
     </div>
   );

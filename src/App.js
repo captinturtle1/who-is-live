@@ -3,18 +3,25 @@ import Cookies from "js-cookie";
 
 import AddRemove from "./AddRemove.js";
 
-const StreamerCard = ({name, viewers, imageUrl}) => {
+// 0 = twitch, 1 = youtube, 2 = kick
+const StreamerCard = ({name, displayName, viewers, imageUrl, platform}) => {
   return(
-    <div className="flex bg-blue-500">
-      <img src={imageUrl} className="w-24 h-24"/>
+    <a 
+      href={platform == 0 ? 
+        `https://twitch.tv/${name}` : platform == 1 ? 
+        `https://youtube.com/@${name}` : 
+        `https://kick.com/${name}`} 
+      className="flex bg-blue-500 p-2 rounded-xl gap-4"
+    >
+      <img src={imageUrl} className="w-24 h-24 rounded-full"/>
       <div>
-        <h1 className="font-bold text-xl">{name}</h1>
+        <h1 className="font-bold text-xl">{displayName}</h1>
         <div className="flex">
           <div className="my-auto w-3 h-3 bg-red-500 rounded-full"></div>
           <h2>{viewers}</h2>
         </div>
       </div>
-    </div>
+    </a>
   )
 }
 
@@ -68,8 +75,14 @@ export default function App() {
       })
       .then(response => response.json())
       .then(data => {
-        data = data.info.data
-        setTwitchLive([...data])
+        data = data.info;
+        let liveOnly = [];
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].live) {
+            liveOnly.push(data[i]);
+          }
+        }
+        setTwitchLive([...liveOnly])
       })
       .catch(console.log)
     }
@@ -124,27 +137,33 @@ export default function App() {
         <div className="flex flex-col gap-8">
           {twitchLive.map(dataObject =>
             <StreamerCard
-              name={dataObject.user_name}
-              viewers={dataObject.viewer_count}
-              imageUrl={'https://cdn-icons-png.flaticon.com/512/5968/5968819.png'}
+              name={dataObject.name}
+              displayName={dataObject.displayName}
+              viewers={dataObject.viewers}
+              imageUrl={dataObject.profileImageURL}
+              platform={0}
             />
           )}
         </div>
         <div className="flex flex-col gap-8">
           {youtubeLive.map(dataObject =>
             <StreamerCard
-              name={dataObject.displayName}
+              name={dataObject.name}
+              displayName={dataObject.displayName}
               viewers={dataObject.viewers}
               imageUrl={dataObject.profileImageURL}
+              platform={1}
             />
           )}
         </div>
         <div className="flex flex-col gap-8">
           {kickLive.map(dataObject =>
             <StreamerCard
-              name={dataObject.displayName}
+              name={dataObject.name}
+              displayName={dataObject.displayName}
               viewers={dataObject.viewers}
               imageUrl={dataObject.imageURL}
+              platform={2}
             />
           )}
         </div>

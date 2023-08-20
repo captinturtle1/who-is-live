@@ -3,23 +3,27 @@ import Cookies from "js-cookie";
 
 import AddRemove from "./AddRemove.js";
 
+import { MdVerified } from 'react-icons/md';
+import { BiRefresh } from 'react-icons/bi';
+
 // 0 = twitch, 1 = youtube, 2 = kick
-const StreamerCard = ({name, displayName, viewers, imageUrl, platform}) => {
+const StreamerCard = ({dataObject, platform}) => {
   return(
     <a 
       href={platform == 0 ? 
-        `https://twitch.tv/${name}` : platform == 1 ? 
-        `https://youtube.com/@${name}` : 
-        `https://kick.com/${name}`} 
-      className="flex bg-blue-500 p-2 rounded-xl gap-4"
+        `https://twitch.tv/${dataObject.name}` : platform == 1 ? 
+        `https://youtube.com/@${dataObject.name}` : 
+        `https://kick.com/${dataObject.name}`} 
+      className="flex bg-blue-500 max-w-[500px] p-2 rounded gap-2 shadow hover:-translate-y-1 transition-all"
     >
-      <img src={imageUrl} className="w-24 h-24 rounded-full"/>
+      <img src={dataObject.profileImageURL} className="w-24 h-24 rounded-full"/>
       <div>
-        <h1 className="font-bold text-xl">{displayName}</h1>
+        <h1 className="font-bold text-xl flex gap-2">{dataObject.displayName}<span className="my-auto mr-auto">{dataObject.verified ? <MdVerified/> : <></>}</span></h1>
         <div className="flex">
           <div className="my-auto w-3 h-3 bg-red-500 rounded-full"></div>
-          <h2>{viewers}</h2>
+          <h2>{dataObject.viewers}</h2>
         </div>
+        <h3 className="text-xs wrap">{dataObject.streamTitle}</h3>
       </div>
     </a>
   )
@@ -35,6 +39,8 @@ export default function App() {
   const [twitchLive, setTwitchLive] = useState([]);
   const [youtubeLive, setYoutubeLive] = useState([]);
   const [kickLive, setKickLive] = useState([]);
+
+  const [allLive, setAllLive] = useState([]);
 
   useEffect(() => {
     getCookies();
@@ -63,15 +69,18 @@ export default function App() {
     if (twitchData) setTwitchList([...JSON.parse(twitchData)]);
     if (youtubeData) setYoutubeList([...JSON.parse(youtubeData)]);
     if (kickData) setKickList([...JSON.parse(kickData)]);
+    retrieveStreamData(JSON.parse(twitchData), JSON.parse(youtubeData), JSON.parse(kickData));
   }
 
-  const retrieveStreamData = () => {
+  const retrieveStreamData = (twitchData, youtubeData, kickData) => {
+    let newAllLive = [];
     // getting twitch data
-    if (twitchList.length > 0) {
-      fetch('http://localhost:1337/twitch', {
+    if (twitchData.length > 0) {
+      fetch('http://54.153.0.46:8080/twitch', {
+        mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(twitchList)
+        body: JSON.stringify(twitchData)
       })
       .then(response => response.json())
       .then(data => {
@@ -80,96 +89,84 @@ export default function App() {
         for (let i = 0; i < data.length; i++) {
           if (data[i].live) {
             liveOnly.push(data[i]);
+            newAllLive.push(data[i]);
           }
         }
-        setTwitchLive([...liveOnly])
+        setTwitchLive([...liveOnly]);
+        newAllLive.sort((a, b) => b.viewers - a.viewers);
+        setAllLive([...newAllLive]);
       })
       .catch(console.log)
     }
 
     // getting youtube data
-    fetch('http://localhost:1337/youtube', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(youtubeList)
-    })
-    .then(response => response.json())
-    .then(data => {
-      data = data.info;
-      let liveOnly = [];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].live) {
-          liveOnly.push(data[i]);
+    if (youtubeData.length > 0) {
+      fetch('http://54.153.0.46:8080/youtube', {
+        mode: 'cors',
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(youtubeData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        data = data.info;
+        let liveOnly = [];
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].live) {
+            liveOnly.push(data[i]);
+            newAllLive.push(data[i]);
+          }
         }
-      }
-      setYoutubeLive([...liveOnly]);
-    })
-    .catch(console.log)
+        setYoutubeLive([...liveOnly]);
+        newAllLive.sort((a, b) => b.viewers - a.viewers);
+        setAllLive([...newAllLive]);
+      })
+      .catch(console.log)
+    }
 
     // getting kick data
-    fetch('http://localhost:1337/kick', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(kickList)
-    })
-    .then(response => response.json())
-    .then(data => {
-      data = data.info;
-      let liveOnly = [];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].live) {
-          liveOnly.push(data[i]);
+    if (kickData.length > 0) {
+      fetch('http://54.153.0.46:8080/kick', {
+        mode: 'cors',
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(kickData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        data = data.info;
+        let liveOnly = [];
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].live) {
+            liveOnly.push(data[i]);
+            newAllLive.push(data[i]);
+          }
         }
-      }
-      setKickLive([...liveOnly]);
-    })
-    .catch(console.log)
+        setKickLive([...liveOnly]);
+        newAllLive.sort((a, b) => b.viewers - a.viewers);
+        setAllLive([...newAllLive]);
+      })
+      .catch(console.log)
+    }
   }
 
   return (
-    <div className="h-screen flex flex-col bg-slate-800">
+    <div className="min-h-screen flex flex-col bg-slate-800 p-8">
       <div className="flex mx-auto gap-4">
-        <button onClick={() => setIsAddRemoveOpen(true)} className="mx-auto p-2 text-white bg-blue-500 rounded-lg my-2">Edit</button>
-        <button onClick={retrieveStreamData} className="mx-auto p-2 text-white bg-blue-500 rounded-lg my-2">Fetch</button>
+        <button onClick={() => setIsAddRemoveOpen(true)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2">Edit</button>
+        <button onClick={() => retrieveStreamData(twitchList, youtubeList, kickList)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2 text-2xl"><BiRefresh/></button>
       </div>
-      <h1 className="text-white mx-auto text-5xl font-bold">WHO IS LIVE?</h1>
-      <div className="mx-auto text-white flex flex-col gap-8">
-        <div className="flex flex-col gap-8">
-          {twitchLive.map(dataObject =>
+      <h1 className="text-white mx-auto text-5xl font-bold my-8">WHO IS LIVE?</h1>
+      <div className="mx-auto text-white gap-8">
+        <div className="flex flex-col gap-4">
+          {allLive.map(dataObject =>
             <StreamerCard
-              name={dataObject.name}
-              displayName={dataObject.displayName}
-              viewers={dataObject.viewers}
-              imageUrl={dataObject.profileImageURL}
+              dataObject={dataObject}
               platform={0}
             />
           )}
         </div>
-        <div className="flex flex-col gap-8">
-          {youtubeLive.map(dataObject =>
-            <StreamerCard
-              name={dataObject.name}
-              displayName={dataObject.displayName}
-              viewers={dataObject.viewers}
-              imageUrl={dataObject.profileImageURL}
-              platform={1}
-            />
-          )}
-        </div>
-        <div className="flex flex-col gap-8">
-          {kickLive.map(dataObject =>
-            <StreamerCard
-              name={dataObject.name}
-              displayName={dataObject.displayName}
-              viewers={dataObject.viewers}
-              imageUrl={dataObject.imageURL}
-              platform={2}
-            />
-          )}
-        </div>
       </div>
-
-
 
       <div>
         {isAddRemoveOpen ?

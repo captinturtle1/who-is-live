@@ -76,7 +76,7 @@ export default function App() {
     let newAllLive = [];
     // getting twitch data
     if (twitchData.length > 0) {
-      fetch('http://54.153.0.46:8080/twitch', {
+      fetch('https://api.isanyone.live/twitch', {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -101,7 +101,7 @@ export default function App() {
 
     // getting youtube data
     if (youtubeData.length > 0) {
-      fetch('http://54.153.0.46:8080/youtube', {
+      fetch('https://api.isanyone.live/youtube', {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -126,7 +126,7 @@ export default function App() {
 
     // getting kick data
     if (kickData.length > 0) {
-      fetch('http://54.153.0.46:8080/kick', {
+      fetch('http://api.isanyone.live/kick', {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

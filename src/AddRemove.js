@@ -82,7 +82,7 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
 
   return (
     <div className="fixed left-0 right-0 top-0 bottom-0 flex gap-8 bg-black backdrop-blur bg-opacity-10 text-white">
-      <div className="flex flex-col gap-4 bg-slate-600 rounded-3xl m-auto p-32">
+      <div className="flex flex-col gap-4 bg-slate-600 rounded m-auto p-16">
         <form className="flex gap-5 m-auto">
           <input
             value={userInput}
@@ -92,12 +92,13 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
           />
           <button type="button" onClick={addChannel} className="bg-blue-500 hover:bg-blue-600 transition-all p-2 cursor-pointer rounded">add</button>
         </form>
-        <h1 className="mx-auto">Select Platform</h1>
-        <div className="flex gap-2 justify-center">
+        <h1 className="mx-auto">Select platform</h1>
+        <div className="flex gap-2 justify-center mb-5">
           <button onClick={() => setPlatformSelected(0)} className={platformSelected === 0 ? "bg-purple-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-purple-700 p-2 cursor-pointer300 transition-all rounded"}><BsTwitch/></button>
           <button onClick={() => setPlatformSelected(1)} className={platformSelected === 1 ? "bg-red-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-red-700 p-2 cursor-pointer transition-all rounded"}><BsYoutube/></button>
           <button onClick={() => setPlatformSelected(2)} className={platformSelected === 2 ? "bg-green-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-green-700 p-2 cursor-pointer transition-all rounded"}><RiKickFill/></button>
         </div>
+        <h2 className="mx-auto font-bold">Currently Added</h2>
         <div className="flex gap-8 m-auto text-center overflow-scroll h-[200px]">
           <ChannelList id={0} list={addedTwitch} handleRemove={handleRemove}/>
           <ChannelList id={1} list={addedYoutube} handleRemove={handleRemove}/>

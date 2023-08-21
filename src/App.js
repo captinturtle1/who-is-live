@@ -20,7 +20,7 @@ const StreamerCard = ({dataObject}) => {
         `https://kick.com/${dataObject.name}`} 
       className="flex bg-blue-500 max-w-[500px] p-2 rounded gap-2 shadow hover:-translate-y-1 transition-all"
     >
-      <img src={dataObject.profileImageURL} className="w-24 h-24 rounded-full"/>
+      <img src={dataObject.profileImageURL} className={dataObject.live ? "w-24 h-24 rounded-full" : "w-24 h-24 rounded-full grayscale"}/>
       <div>
         <h1 className="font-bold text-xl flex gap-2">{dataObject.displayName}
           <span className="mt-2 mr-auto flex gap-2">

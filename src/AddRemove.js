@@ -27,6 +27,8 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
   const [addedYoutube, setAddedYoutube] = useState([]);
   const [addedKick, setAddedKick] = useState([]);
 
+  const [validInput, setValidInput] = useState(true);
+
   useEffect(() => {
     setAddedTwitch([...currentLists[0]]);
     setAddedYoutube([...currentLists[1]]);
@@ -35,6 +37,11 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
 
   const handleUserInput = (e) => {
     setUserInput(e.target.value);
+    if ((e.target.value).match(/^[a-zA-Z0-9_]+$/i)) {
+      setValidInput(true);
+    } else {
+      setValidInput(false);
+    }
   }
 
   const addChannel = () => {
@@ -88,9 +95,10 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
             value={userInput}
             onChange={handleUserInput}
             placeholder="Channel"
-            className="bg-black focus:bg-zinc-800 outline-none p-2 rounded"
+            pattern="[A-Za-z0-9_]+"
+            className="bg-black focus:bg-zinc-800 outline-none invalid:outline invalid:outline-1 invalid:outline-red-500 p-2 rounded"
           />
-          <button type="button" onClick={addChannel} className="bg-blue-500 hover:bg-blue-600 transition-all p-2 cursor-pointer rounded">add</button>
+          <div onClick={validInput ? addChannel : null} className={validInput ? "bg-blue-500 hover:bg-blue-600 transition-all p-2 cursor-pointer rounded" : "bg-gray-500 text-gray-300 transition-all p-2 rounded select-none"}>add</div>
         </form>
         <h1 className="mx-auto">Select platform</h1>
         <div className="flex gap-2 justify-center mb-5">
@@ -99,7 +107,7 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
           <button onClick={() => setPlatformSelected(2)} className={platformSelected === 2 ? "bg-green-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-green-700 p-2 cursor-pointer transition-all rounded"}><RiKickFill/></button>
         </div>
         <h2 className="mx-auto font-bold">Currently Added</h2>
-        <div className="flex gap-8 m-auto text-center overflow-scroll h-[200px]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 m-auto text-center overflow-scroll h-[200px]">
           <ChannelList id={0} list={addedTwitch} handleRemove={handleRemove}/>
           <ChannelList id={1} list={addedYoutube} handleRemove={handleRemove}/>
           <ChannelList id={2} list={addedKick} handleRemove={handleRemove}/>

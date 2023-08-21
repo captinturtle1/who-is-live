@@ -113,8 +113,8 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
           <ChannelList id={2} list={addedKick} handleRemove={handleRemove}/>
         </div>
         <div className="flex gap-8">
-          <button onClick={handleCancel} className='ml-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-5'>Cancel</button>
-          <button onClick={handleSave} className='mr-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-5'>Save</button>
+          <button onClick={handleCancel} className='ml-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded'>Cancel</button>
+          <button onClick={handleSave} className='mr-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded'>Save</button>
         </div>
       </div>
     </div>

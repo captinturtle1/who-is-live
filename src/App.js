@@ -158,7 +158,7 @@ export default function App() {
       </div>
       <h1 className="text-white mx-auto text-5xl font-bold my-8">WHO IS LIVE?</h1>
       <div className="mx-auto text-white gap-8">
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {allLive.map(dataObject =>
             <StreamerCard
               dataObject={dataObject}

@@ -6,6 +6,7 @@ import Help from "./Help.js";
 
 import { MdVerified } from 'react-icons/md';
 import { BiRefresh } from 'react-icons/bi';
+import { ImSpinner2 } from 'react-icons/im';
 
 // 0 = twitch, 1 = youtube, 2 = kick
 const StreamerCard = ({dataObject, platform}) => {
@@ -38,12 +39,10 @@ export default function App() {
   const [isAddRemoveOpen, setIsAddRemoveOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
-  const [twitchLive, setTwitchLive] = useState([]);
-  const [youtubeLive, setYoutubeLive] = useState([]);
-  const [kickLive, setKickLive] = useState([]);
-
   const [allLive, setAllLive] = useState([]);
 
+  const [fetching, setFetching] = useState(false);
+  
   useEffect(() => {
     getCookies();
   }, [])
@@ -91,9 +90,15 @@ export default function App() {
   }
 
   const retrieveStreamData = (twitchData, youtubeData, kickData) => {
+    let fetchingTwitch = false;
+    let fetchingYoutube = false;
+    let fetchingKick = false;
+
     let newAllLive = [];
     // getting twitch data
     if (twitchData.length > 0) {
+      setFetching(true);
+      fetchingTwitch = true;
       fetch('https://api.isanyone.live/twitch', {
         mode: 'cors',
         method: 'POST',
@@ -110,15 +115,26 @@ export default function App() {
             newAllLive.push(data[i]);
           }
         }
-        setTwitchLive([...liveOnly]);
         newAllLive.sort((a, b) => b.viewers - a.viewers);
         setAllLive([...newAllLive]);
+        fetchingTwitch = false;
+        if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
+          setFetching(false);
+        }
       })
-      .catch(console.log)
+      .catch(err => {
+        console.log(err);
+        fetchingTwitch = false;
+        if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
+          setFetching(false);
+        }
+      })
     }
 
     // getting youtube data
     if (youtubeData.length > 0) {
+      setFetching(true);
+      fetchingYoutube = true;
       fetch('https://api.isanyone.live/youtube', {
         mode: 'cors',
         method: 'POST',
@@ -135,15 +151,26 @@ export default function App() {
             newAllLive.push(data[i]);
           }
         }
-        setYoutubeLive([...liveOnly]);
         newAllLive.sort((a, b) => b.viewers - a.viewers);
         setAllLive([...newAllLive]);
+        fetchingYoutube = false;
+        if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
+          setFetching(false);
+        }
       })
-      .catch(console.log)
+      .catch(err => {
+        console.log(err);
+        fetchingYoutube = false;
+        if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
+          setFetching(false);
+        }
+      })
     }
 
     // getting kick data
     if (kickData.length > 0) {
+      setFetching(true);
+      fetchingKick = true;
       fetch('https://api.isanyone.live/kick', {
         mode: 'cors',
         method: 'POST',
@@ -160,11 +187,20 @@ export default function App() {
             newAllLive.push(data[i]);
           }
         }
-        setKickLive([...liveOnly]);
         newAllLive.sort((a, b) => b.viewers - a.viewers);
         setAllLive([...newAllLive]);
+        fetchingKick = false;
+        if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
+          setFetching(false);
+        }
       })
-      .catch(console.log)
+      .catch(err => {
+        console.log(err);
+        fetchingKick = false;
+        if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
+          setFetching(false);
+        }
+      })
     }
   }
 
@@ -188,6 +224,7 @@ export default function App() {
               platform={0}
             />
           )}
+          {fetching ? <ImSpinner2 className="m-auto text-3xl animate-spin col-span-3"/> : <></>}
         </div>
       </div>
 

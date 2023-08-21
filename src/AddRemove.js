@@ -89,7 +89,7 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
 
   return (
     <div className="fixed left-0 right-0 top-0 bottom-0 flex gap-8 bg-black backdrop-blur bg-opacity-10 text-white">
-      <div className="flex flex-col gap-4 bg-slate-600 rounded m-auto p-16">
+      <div className="flex flex-col gap-4 bg-slate-600 rounded m-auto p-8 lg:p-16">
         <form className="flex gap-5 m-auto">
           <input
             value={userInput}

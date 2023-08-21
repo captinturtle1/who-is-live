@@ -7,25 +7,39 @@ import Help from "./Help.js";
 import { MdVerified } from 'react-icons/md';
 import { BiRefresh } from 'react-icons/bi';
 import { ImSpinner2 } from 'react-icons/im';
+import { BsTwitch, BsYoutube } from 'react-icons/bs';
+import { RiKickFill } from 'react-icons/ri';
 
 // 0 = twitch, 1 = youtube, 2 = kick
-const StreamerCard = ({dataObject, platform}) => {
+const StreamerCard = ({dataObject}) => {
   return(
     <a 
-      href={platform == 0 ? 
-        `https://twitch.tv/${dataObject.name}` : platform == 1 ? 
+      href={dataObject.platform == 0 ? 
+        `https://twitch.tv/${dataObject.name}` : dataObject.platform == 1 ? 
         `https://youtube.com/@${dataObject.name}` : 
         `https://kick.com/${dataObject.name}`} 
       className="flex bg-blue-500 max-w-[500px] p-2 rounded gap-2 shadow hover:-translate-y-1 transition-all"
     >
       <img src={dataObject.profileImageURL} className="w-24 h-24 rounded-full"/>
       <div>
-        <h1 className="font-bold text-xl flex gap-2">{dataObject.displayName}<span className="my-auto mr-auto">{dataObject.verified ? <MdVerified/> : <></>}</span></h1>
-        <div className="flex">
-          <div className="my-auto w-3 h-3 bg-red-500 rounded-full"></div>
-          <h2>{dataObject.viewers}</h2>
-        </div>
-        <h3 className="text-xs wrap">{dataObject.streamTitle}</h3>
+        <h1 className="font-bold text-xl flex gap-2">{dataObject.displayName}
+          <span className="mt-2 mr-auto flex gap-2">
+            {dataObject.verified ? <MdVerified/> : <></>}
+            {dataObject.platform == 0 ? <BsTwitch/> : dataObject.platform == 1 ? <BsYoutube/> : <RiKickFill/>}</span>
+        </h1>
+        {dataObject.live ? 
+          <>
+            <div className="flex gap-1">
+              <div className="mt-2 w-3 h-3 bg-red-500 rounded-full"></div>
+              <h2>{dataObject.viewers}</h2>
+            </div>
+            <h3 className="text-xs wrap">{dataObject.streamTitle}</h3>
+          </>
+        :
+          <>
+            <h2>Offline</h2>
+          </>
+        }
       </div>
     </a>
   )
@@ -40,8 +54,11 @@ export default function App() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   const [allLive, setAllLive] = useState([]);
+  const [allData, setAllData] = useState([]);
 
   const [fetching, setFetching] = useState(false);
+
+  const [displayOffline, setDisplayOffline] = useState(true);
   
   useEffect(() => {
     getCookies();
@@ -95,6 +112,7 @@ export default function App() {
     let fetchingKick = false;
 
     let newAllLive = [];
+    let newAllData = []
     // getting twitch data
     if (twitchData.length > 0) {
       setFetching(true);
@@ -108,14 +126,14 @@ export default function App() {
       .then(response => response.json())
       .then(data => {
         data = data.info;
-        let liveOnly = [];
         for (let i = 0; i < data.length; i++) {
-          if (data[i].live) {
-            liveOnly.push(data[i]);
-            newAllLive.push(data[i]);
-          }
+          data[i].platform = 0;
+          newAllData.push(data[i]);
+          if (data[i].live) newAllLive.push(data[i]);
         }
+        newAllData.sort((a, b) => b.viewers - a.viewers);
         newAllLive.sort((a, b) => b.viewers - a.viewers);
+        setAllData([...newAllData]);
         setAllLive([...newAllLive]);
         fetchingTwitch = false;
         if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
@@ -144,14 +162,15 @@ export default function App() {
       .then(response => response.json())
       .then(data => {
         data = data.info;
-        let liveOnly = [];
         for (let i = 0; i < data.length; i++) {
-          if (data[i].live) {
-            liveOnly.push(data[i]);
-            newAllLive.push(data[i]);
-          }
+          data[i].platform = 1;
+          newAllData.push(data[i]);
+          if (data[i].live) newAllLive.push(data[i]);
+          console.log(data[i]);
         }
+        newAllData.sort((a, b) => b.viewers - a.viewers);
         newAllLive.sort((a, b) => b.viewers - a.viewers);
+        setAllData([...newAllData]);
         setAllLive([...newAllLive]);
         fetchingYoutube = false;
         if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
@@ -180,14 +199,14 @@ export default function App() {
       .then(response => response.json())
       .then(data => {
         data = data.info;
-        let liveOnly = [];
         for (let i = 0; i < data.length; i++) {
-          if (data[i].live) {
-            liveOnly.push(data[i]);
-            newAllLive.push(data[i]);
-          }
+          data[i].platform = 2;
+          newAllData.push(data[i]);
+          if (data[i].live) newAllLive.push(data[i]);
         }
+        newAllData.sort((a, b) => b.viewers - a.viewers);
         newAllLive.sort((a, b) => b.viewers - a.viewers);
+        setAllData([...newAllData]);
         setAllLive([...newAllLive]);
         fetchingKick = false;
         if (!fetchingTwitch && !fetchingYoutube && !fetchingKick) {
@@ -217,17 +236,36 @@ export default function App() {
       </div>
       <div className="mx-auto text-white gap-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {allLive.map(dataObject =>
-            <StreamerCard
-              key={dataObject.name}
-              dataObject={dataObject}
-              platform={0}
-            />
-          )}
-          {fetching ? <ImSpinner2 className="m-auto text-3xl animate-spin col-span-3"/> : <></>}
+          {displayOffline ?
+            <>
+              {allData.map(dataObject =>
+                <StreamerCard
+                  key={dataObject.name}
+                  dataObject={dataObject}
+                />
+              )}
+            </>
+          : 
+            <>
+              {allLive.map(dataObject =>
+                <StreamerCard
+                  key={dataObject.name}
+                  dataObject={dataObject}
+                />
+              )}
+            </>
+          }
+          {fetching ? <ImSpinner2 className="m-auto text-3xl my-5 animate-spin col-span-3"/> : <></>}
         </div>
       </div>
-
+      <h2 className="mx-auto text-white font-bold mt-5">Display Offline</h2>
+      <div onClick={() => setDisplayOffline(!displayOffline)} className={displayOffline ? 
+        "w-12 h-6 bg-blue-500 flex mx-auto mt-2 rounded-full cursor-pointer" : 
+        "w-12 h-6 bg-red-400 flex mx-auto mt-2 rounded-full cursor-pointer"}
+      >
+        <div className={displayOffline ? "flex-grow transition-all" : "transition-all"}/>
+        <div className="text-white bg-white transition-all rounded-full w-6 h-6"/>
+      </div>
       <div>
         {isAddRemoveOpen ?
           <AddRemove

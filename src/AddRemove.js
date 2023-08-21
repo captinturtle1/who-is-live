@@ -9,7 +9,7 @@ const ChannelList = ({id, list, handleRemove}) => {
     <div className="w-32 flex flex-col gap-2">
       <div>{id === 0 ? 'Twitch' : id === 1 ? 'Youtube' : 'Kick'}</div>
       {list.map((value, index) => 
-        <div className="flex bg-blue-500 px-2 rounded">
+        <div key={value} className="flex bg-blue-500 px-2 rounded">
           <div className="mr-auto my-auto overflow-hidden text-sm">{value}</div>
           <ImCross onClick={() => handleRemove(id, index)} className="m-1 text-red-500 hover:text-red-600 transition-all font-black cursor-pointer"/>
         </div>

@@ -172,7 +172,10 @@ export default function App() {
         <button onClick={() => setIsAddRemoveOpen(true)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2">Edit</button>
         <button onClick={() => retrieveStreamData(twitchList, youtubeList, kickList)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2 text-2xl"><BiRefresh/></button>
       </div>
-      <h1 className="text-white mx-auto text-5xl font-bold my-8">WHO IS LIVE?</h1>
+      <div className="mx-auto flex flex-col text-zinc-100 my-8">
+        <h1 className="text-5xl font-bold">WHO IS LIVE?</h1>
+        <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" className="text-blue-200 underline">captinturtle</a></h2>
+      </div>
       <div className="mx-auto text-white gap-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {allLive.map(dataObject =>

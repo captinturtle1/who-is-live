@@ -60,16 +60,32 @@ export default function App() {
     Cookies.set('twitch-list', twitchData, { expires: 7 });
     Cookies.set('youtube-list', youtubeData, { expires: 7 });
     Cookies.set('kick-list', kickData, { expires: 7 });
+    retrieveStreamData(newData[0], newData[1], newData[2]);
   }
 
   const getCookies = () => {
     let twitchData = Cookies.get('twitch-list');
     let youtubeData = Cookies.get('youtube-list');
     let kickData = Cookies.get('kick-list');
-    if (twitchData) setTwitchList([...JSON.parse(twitchData)]);
-    if (youtubeData) setYoutubeList([...JSON.parse(youtubeData)]);
-    if (kickData) setKickList([...JSON.parse(kickData)]);
-    retrieveStreamData(JSON.parse(twitchData), JSON.parse(youtubeData), JSON.parse(kickData));
+    if (twitchData) {
+      twitchData = JSON.parse(twitchData);
+      setTwitchList([...twitchData]);
+    } else {
+      twitchData = [];
+    }
+    if (youtubeData) {
+      youtubeData = JSON.parse(youtubeData);
+      setYoutubeList([...youtubeData]);
+    } else {
+      youtubeData = [];
+    }
+    if (kickData) {
+      kickData = JSON.parse(kickData);
+      setKickList([...kickData]);
+    } else {
+      kickData = [];
+    }
+    retrieveStreamData(twitchData, youtubeData, kickData);
   }
 
   const retrieveStreamData = (twitchData, youtubeData, kickData) => {
@@ -126,7 +142,7 @@ export default function App() {
 
     // getting kick data
     if (kickData.length > 0) {
-      fetch('http://api.isanyone.live/kick', {
+      fetch('https://api.isanyone.live/kick', {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -161,6 +177,7 @@ export default function App() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {allLive.map(dataObject =>
             <StreamerCard
+              key={dataObject.name}
               dataObject={dataObject}
               platform={0}
             />

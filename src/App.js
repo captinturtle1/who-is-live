@@ -12,7 +12,7 @@ import { RiKickFill } from 'react-icons/ri';
 
 let apiURL = '';
 if (process.env.NODE_ENV == 'production') {
-  apiURL = 'https://api.whois.live';
+  apiURL = 'https://api.isanyone.live';
 } else {
   apiURL = 'http://localhost:8080';
 }

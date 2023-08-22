@@ -18,6 +18,7 @@ const StreamerCard = ({dataObject}) => {
         `https://twitch.tv/${dataObject.name}` : dataObject.platform == 1 ? 
         `https://youtube.com/@${dataObject.name}` : 
         `https://kick.com/${dataObject.name}`} 
+      target="_blank"
       className="flex bg-blue-500 p-2 rounded gap-2 shadow hover:-translate-y-1 transition-all"
     >
       <img src={dataObject.profileImageURL} className={dataObject.live ? "w-24 h-24 rounded-full" : "w-24 h-24 rounded-full grayscale"}/>
@@ -232,7 +233,7 @@ export default function App() {
       </div>
       <div className="mx-auto flex flex-col text-zinc-100 my-8">
         <h1 className="text-5xl font-bold">WHO IS LIVE?</h1>
-        <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" className="text-blue-200 hover:text-blue-300 transition-all">captinturtle</a></h2>
+        <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className="text-blue-200 hover:text-blue-300 transition-all">captinturtle</a></h2>
       </div>
       <div className="text-white gap-8 flex">
         <div className="grid w-screen px-20 grid-cols-1 lg:grid-cols-3 gap-4">

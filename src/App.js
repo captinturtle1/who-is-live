@@ -236,7 +236,7 @@ export default function App() {
         <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className="text-blue-200 hover:text-blue-300 transition-all">captinturtle</a></h2>
       </div>
       <div className="text-white gap-8 flex">
-        <div className="grid w-screen px-20 grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid w-screen px-[10vw] grid-cols-1 lg:grid-cols-3 gap-4">
           {displayOffline ?
             <>
               {allData.map(dataObject =>

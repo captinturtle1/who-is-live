@@ -232,7 +232,7 @@ export default function App() {
         <button onClick={() => setIsHelpOpen(true)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2">Help</button>
       </div>
       <div className="mx-auto flex flex-col text-zinc-100 my-8">
-        <h1 className="text-5xl font-bold">WHO IS LIVE?</h1>
+        <h1 className="text-5xl font-bold">IS ANYONE LIVE?</h1>
         <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className="text-blue-200 hover:text-blue-300 transition-all">captinturtle</a></h2>
       </div>
       <div className="text-white gap-8 flex">

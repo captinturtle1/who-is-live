@@ -10,6 +10,13 @@ import { ImSpinner2 } from 'react-icons/im';
 import { BsTwitch, BsYoutube } from 'react-icons/bs';
 import { RiKickFill } from 'react-icons/ri';
 
+let apiURL = '';
+if (process.env.NODE_ENV == 'production') {
+  apiURL = 'https://api.whois.live';
+} else {
+  apiURL = 'http://localhost:8080';
+}
+
 // 0 = twitch, 1 = youtube, 2 = kick
 const StreamerCard = ({dataObject}) => {
   return(
@@ -21,9 +28,9 @@ const StreamerCard = ({dataObject}) => {
       target="_blank"
       className="flex bg-blue-500 p-2 rounded gap-2 shadow hover:-translate-y-1 transition-all"
     >
-      <img src={dataObject.profileImageURL} className={dataObject.live ? "w-24 h-24 rounded-full" : "w-24 h-24 rounded-full grayscale"}/>
+      <img src={dataObject.profileImageURL} className={dataObject.live ? "w-12 h-12 lg:w-24 lg:h-24 rounded-full" : "w-12 h-12 lg:w-24 lg:h-24 rounded-full grayscale"}/>
       <div>
-        <h1 className="font-bold text-xl flex gap-2">{dataObject.displayName}
+        <h1 className="font-bold text-lg lg:text-xl flex gap-2">{dataObject.displayName}
           <span className="mt-2 mr-auto flex gap-2">
             {dataObject.verified ? <MdVerified/> : <></>}
             {dataObject.platform == 0 ? <BsTwitch/> : dataObject.platform == 1 ? <BsYoutube/> : <RiKickFill/>}</span>
@@ -118,7 +125,7 @@ export default function App() {
     if (twitchData.length > 0) {
       setFetching(true);
       fetchingTwitch = true;
-      fetch('https://api.isanyone.live/twitch', {
+      fetch(`${apiURL}/twitch`, {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -154,7 +161,7 @@ export default function App() {
     if (youtubeData.length > 0) {
       setFetching(true);
       fetchingYoutube = true;
-      fetch('https://api.isanyone.live/youtube', {
+      fetch(`${apiURL}/youtube`, {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -191,7 +198,7 @@ export default function App() {
     if (kickData.length > 0) {
       setFetching(true);
       fetchingKick = true;
-      fetch('https://api.isanyone.live/kick', {
+      fetch(`${apiURL}/kick`, {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -232,11 +239,11 @@ export default function App() {
         <button onClick={() => setIsHelpOpen(true)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2">Help</button>
       </div>
       <div className="mx-auto flex flex-col text-zinc-100 my-8">
-        <h1 className="text-5xl font-bold">IS ANYONE LIVE?</h1>
+        <h1 className="text-lg lg:text-5xl font-bold">IS ANYONE LIVE?</h1>
         <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className="text-blue-200 hover:text-blue-300 transition-all">captinturtle</a></h2>
       </div>
       <div className="text-white gap-8 flex">
-        <div className="grid w-screen px-[10vw] grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid w-screen xl:px-[10vw] grid-cols-1 lg:grid-cols-3 gap-4">
           {displayOffline ?
             <>
               {allData.map(dataObject =>

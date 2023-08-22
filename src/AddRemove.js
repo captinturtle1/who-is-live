@@ -111,7 +111,7 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
           <button onClick={() => setPlatformSelected(2)} className={platformSelected === 2 ? "bg-green-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-green-700 p-2 cursor-pointer transition-all rounded"}><RiKickFill/></button>
         </div>
         <h2 className="mx-auto font-bold">Currently Added</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 m-auto text-center overflow-scroll h-[200px]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 m-auto text-center overflow-auto h-[200px]">
           <ChannelList id={0} list={addedTwitch} handleRemove={handleRemove}/>
           <ChannelList id={1} list={addedYoutube} handleRemove={handleRemove}/>
           <ChannelList id={2} list={addedKick} handleRemove={handleRemove}/>

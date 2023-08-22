@@ -27,7 +27,7 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
   const [addedYoutube, setAddedYoutube] = useState([]);
   const [addedKick, setAddedKick] = useState([]);
 
-  const [validInput, setValidInput] = useState(true);
+  const [validInput, setValidInput] = useState(false);
 
   useEffect(() => {
     setAddedTwitch([...currentLists[0]]);

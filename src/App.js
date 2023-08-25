@@ -197,7 +197,6 @@ export default function App() {
           data[i].platform = 1;
           newAllData.push(data[i]);
           if (data[i].live) newAllLive.push(data[i]);
-          console.log(data[i]);
         }
         newAllData.sort((a, b) => b.viewers - a.viewers);
         newAllLive.sort((a, b) => b.viewers - a.viewers);

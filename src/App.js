@@ -83,33 +83,56 @@ export default function App() {
     let twitchData = JSON.stringify(newData[0]);
     let youtubeData = JSON.stringify(newData[1]);
     let kickData = JSON.stringify(newData[2]);
-    Cookies.set('twitch-list', twitchData, { expires: 7 });
-    Cookies.set('youtube-list', youtubeData, { expires: 7 });
-    Cookies.set('kick-list', kickData, { expires: 7 });
+    Cookies.set('twitch-list', twitchData, { expires: 365 });
+    Cookies.set('youtube-list', youtubeData, { expires: 365 });
+    Cookies.set('kick-list', kickData, { expires: 365 });
     retrieveStreamData(newData[0], newData[1], newData[2]);
+  }
+
+  const setOptionsCookie = (optionsObject) => {
+    let optionsString = JSON.stringify(optionsObject);
+
+    Cookies.set('user-settings', optionsString, { expires: 365 })
+  }
+
+  const handleToggleViewOffline = () => {
+    let optionsObject = {
+      displayOffline: !displayOffline
+    };
+
+    setDisplayOffline(!displayOffline);
+    setOptionsCookie(optionsObject);
   }
 
   const getCookies = () => {
     let twitchData = Cookies.get('twitch-list');
     let youtubeData = Cookies.get('youtube-list');
     let kickData = Cookies.get('kick-list');
+    let optionsData = Cookies.get('user-settings');
     if (twitchData) {
       twitchData = JSON.parse(twitchData);
       setTwitchList([...twitchData]);
     } else {
       twitchData = [];
     }
+
     if (youtubeData) {
       youtubeData = JSON.parse(youtubeData);
       setYoutubeList([...youtubeData]);
     } else {
       youtubeData = [];
     }
+
     if (kickData) {
       kickData = JSON.parse(kickData);
       setKickList([...kickData]);
     } else {
       kickData = [];
+    }
+
+    if (optionsData) {
+      optionsData = JSON.parse(optionsData);
+      setDisplayOffline(optionsData.displayOffline);
     }
     retrieveStreamData(twitchData, youtubeData, kickData);
   }
@@ -267,7 +290,7 @@ export default function App() {
         </div>
       </div>
       <h2 className="mx-auto text-white font-bold mt-5">Display Offline</h2>
-      <div onClick={() => setDisplayOffline(!displayOffline)} className={displayOffline ? 
+      <div onClick={handleToggleViewOffline} className={displayOffline ? 
         "w-12 h-6 bg-blue-500 flex mx-auto mt-2 rounded-full cursor-pointer" : 
         "w-12 h-6 bg-red-400 flex mx-auto mt-2 rounded-full cursor-pointer"}
       >

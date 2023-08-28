@@ -143,7 +143,9 @@ export default function App() {
     let fetchingKick = false;
 
     let newAllLive = [];
-    let newAllData = []
+    let newAllData = [];
+    setAllData([...newAllData]);
+    setAllLive([...newAllLive]);
     // getting twitch data
     if (twitchData.length > 0) {
       setFetching(true);

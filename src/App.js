@@ -14,17 +14,14 @@ let apiURL = '';
 if (process.env.NODE_ENV == 'production') {
   apiURL = 'https://api.isanyone.live';
 } else {
-  apiURL = 'http://localhost:8080';
+  apiURL = 'https://api.isanyone.live';
 }
 
 // 0 = twitch, 1 = youtube, 2 = kick
 const StreamerCard = ({dataObject}) => {
   return(
     <a 
-      href={dataObject.platform == 0 ? 
-        `https://twitch.tv/${dataObject.name}` : dataObject.platform == 1 ? 
-        `https://youtube.com/@${dataObject.name}` : 
-        `https://kick.com/${dataObject.name}`} 
+      href={dataObject.streamURL}
       target="_blank"
       className="flex bg-blue-500 p-2 rounded gap-2 shadow hover:-translate-y-1 transition-all"
     >
@@ -41,7 +38,8 @@ const StreamerCard = ({dataObject}) => {
               <div className="mt-2 w-3 h-3 bg-red-500 rounded-full"></div>
               <h2>{dataObject.viewers}</h2>
             </div>
-            <h3 className="text-xs wrap">{dataObject.streamTitle}</h3>
+            <h3 className="text-xs wrap font-bold">{dataObject.streamTitle}</h3>
+            <h3 className="text-xs wrap">{dataObject.catagory}</h3>
           </>
         :
           <>

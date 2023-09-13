@@ -11,7 +11,7 @@ const ChannelList = ({id, list, handleRemove}) => {
       {list.map((value, index) => 
         <div key={value} className="flex bg-blue-500 px-2 rounded">
           <div className="mr-auto my-auto overflow-hidden text-sm">{value}</div>
-          <ImCross onClick={() => handleRemove(id, index)} className="m-1 text-red-500 hover:text-red-600 transition-all font-black cursor-pointer"/>
+          <ImCross onClick={() => handleRemove(id, index)} className="m-1 text-red-400 hover:text-red-500 transition-all font-black cursor-pointer"/>
         </div>
       )}
     </div>

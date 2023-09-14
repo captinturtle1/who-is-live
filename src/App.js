@@ -37,9 +37,11 @@ const StreamerCard = ({dataObject}) => {
             <div className="flex gap-1">
               <div className="mt-2 w-3 h-3 bg-red-500 rounded-full"></div>
               <h2>{dataObject.viewers}</h2>
+              {dataObject.catagory ? (<h2>• {dataObject.catagory}</h2>):(<></>)}
+              
             </div>
             <h3 className="text-xs wrap font-bold">{dataObject.streamTitle}</h3>
-            <h3 className="text-xs wrap">{dataObject.catagory}</h3>
+            
           </>
         :
           <>

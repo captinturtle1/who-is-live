@@ -158,7 +158,7 @@ export default function App() {
       })
       .then(response => response.json())
       .then(data => {
-        data = data.info;
+        data = data.body;
         for (let i = 0; i < data.length; i++) {
           data[i].platform = 0;
           newAllData.push(data[i]);
@@ -194,7 +194,7 @@ export default function App() {
       })
       .then(response => response.json())
       .then(data => {
-        data = data.info;
+        data = data.body;
         for (let i = 0; i < data.length; i++) {
           data[i].platform = 1;
           newAllData.push(data[i]);
@@ -230,7 +230,7 @@ export default function App() {
       })
       .then(response => response.json())
       .then(data => {
-        data = data.info;
+        data = data.body;
         for (let i = 0; i < data.length; i++) {
           data[i].platform = 2;
           newAllData.push(data[i]);

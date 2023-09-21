@@ -18,13 +18,14 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 // 0 = twitch, 1 = youtube, 2 = kick
-const StreamerCard = ({dataObject}) => {
+const StreamerCard = ({dataObject, displayThumbnails}) => {
   return(
     <a 
       href={dataObject.streamURL}
       target="_blank"
-      className="flex bg-blue-500 p-2 rounded gap-2 shadow hover:-translate-y-1 transition-all"
+      className="bg-blue-500 p-2 rounded gap-2 flex flex-col shadow hover:-translate-y-1 transition-all"
     >
+      <div className="flex gap-2">
       <img src={dataObject.profileImageURL} className={dataObject.live ? "w-12 h-12 lg:w-24 lg:h-24 rounded-full" : "w-12 h-12 lg:w-24 lg:h-24 rounded-full grayscale"}/>
       <div>
         <h1 className="font-bold text-lg lg:text-xl flex gap-2">{dataObject.displayName}
@@ -41,7 +42,6 @@ const StreamerCard = ({dataObject}) => {
               
             </div>
             <h3 className="text-xs wrap font-bold">{dataObject.streamTitle}</h3>
-            
           </>
         :
           <>
@@ -49,6 +49,8 @@ const StreamerCard = ({dataObject}) => {
           </>
         }
       </div>
+      </div>
+      {displayThumbnails ? <img className="rounded" src={dataObject.streamThumbnail}/> : <></>}
     </a>
   )
 }
@@ -286,6 +288,7 @@ export default function App() {
                 <StreamerCard
                   key={dataObject.name}
                   dataObject={dataObject}
+                  displayThumbnails={displayThumbnails}
                 />
               )}
             </>
@@ -295,6 +298,7 @@ export default function App() {
                 <StreamerCard
                   key={dataObject.name}
                   dataObject={dataObject}
+                  displayThumbnails={displayThumbnails}
                 />
               )}
             </>

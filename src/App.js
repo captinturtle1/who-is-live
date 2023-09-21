@@ -67,6 +67,7 @@ export default function App() {
   const [fetching, setFetching] = useState(false);
 
   const [displayOffline, setDisplayOffline] = useState(true);
+  const [displayThumbnails, setDisplayThumbnails] = useState(true);
   
   useEffect(() => {
     getCookies();
@@ -97,10 +98,21 @@ export default function App() {
 
   const handleToggleViewOffline = () => {
     let optionsObject = {
-      displayOffline: !displayOffline
+      displayOffline: !displayOffline,
+      displayThumbnails: displayThumbnails
     };
 
     setDisplayOffline(!displayOffline);
+    setOptionsCookie(optionsObject);
+  }
+
+  const handleThumbnailToggle = () => {
+    let optionsObject = {
+      displayOffline: displayOffline,
+      displayThumbnails: !displayThumbnails
+    };
+
+    setDisplayThumbnails(!displayThumbnails);
     setOptionsCookie(optionsObject);
   }
 
@@ -290,13 +302,27 @@ export default function App() {
           {fetching ? <ImSpinner2 className="m-auto text-3xl my-5 animate-spin col-span-3"/> : <></>}
         </div>
       </div>
-      <h2 className="mx-auto text-white font-bold mt-5">Display Offline</h2>
-      <div onClick={handleToggleViewOffline} className={displayOffline ? 
-        "w-12 h-6 bg-blue-500 flex mx-auto mt-2 rounded-full cursor-pointer" : 
-        "w-12 h-6 bg-red-400 flex mx-auto mt-2 rounded-full cursor-pointer"}
-      >
-        <div className={displayOffline ? "flex-grow transition-all" : "transition-all"}/>
-        <div className="text-white bg-white transition-all rounded-full w-6 h-6"/>
+      <div className="flex mx-auto gap-8">
+        <div>
+          <h2 className="mx-auto text-white font-bold mt-5">Display Offline</h2>
+          <div onClick={handleToggleViewOffline} className={displayOffline ? 
+            "w-12 h-6 bg-blue-500 flex mx-auto mt-2 rounded-full cursor-pointer" : 
+            "w-12 h-6 bg-red-400 flex mx-auto mt-2 rounded-full cursor-pointer"}
+          >
+            <div className={displayOffline ? "flex-grow transition-all" : "transition-all"}/>
+            <div className="text-white bg-white transition-all rounded-full w-6 h-6"/>
+          </div>
+        </div>
+        <div>
+          <h2 className="mx-auto text-white font-bold mt-5">Display Thumbnails</h2>
+          <div onClick={handleThumbnailToggle} className={displayThumbnails ? 
+            "w-12 h-6 bg-blue-500 flex mx-auto mt-2 rounded-full cursor-pointer" : 
+            "w-12 h-6 bg-red-400 flex mx-auto mt-2 rounded-full cursor-pointer"}
+          >
+            <div className={displayThumbnails ? "flex-grow transition-all" : "transition-all"}/>
+            <div className="text-white bg-white transition-all rounded-full w-6 h-6"/>
+          </div>
+        </div>
       </div>
       <div>
         {isAddRemoveOpen ?

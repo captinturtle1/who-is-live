@@ -23,7 +23,7 @@ const StreamerCard = ({dataObject, displayThumbnails}) => {
     <a 
       href={dataObject.streamURL}
       target="_blank"
-      className="bg-blue-500 p-2 rounded gap-2 flex flex-col shadow hover:-translate-y-1 transition-all"
+      className="bg-blue-500 p-2 h-fit rounded gap-2 flex flex-col shadow hover:-translate-y-1 transition-all"
     >
       <div className="flex gap-2">
       <img src={dataObject.profileImageURL} className={dataObject.live ? "w-12 h-12 lg:w-24 lg:h-24 rounded-full" : "w-12 h-12 lg:w-24 lg:h-24 rounded-full grayscale"}/>

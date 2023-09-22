@@ -27,7 +27,7 @@ const StreamerCard = ({dataObject, displayThumbnails}) => {
     date.setSeconds(elapsedTime);
     return date.toISOString().slice(11, 19);
   }
-  
+
   return(
     <a 
       href={dataObject.streamURL}
@@ -51,7 +51,7 @@ const StreamerCard = ({dataObject, displayThumbnails}) => {
               
             </div>
             <h3 className="text-xs wrap font-bold mb-1">{dataObject.streamTitle}</h3>
-            <h3 className="text-xs wrap">{calculateTime(dataObject.streamStartTime)}</h3>
+            {dataObject.platform != 1 ? <h3 className="text-xs wrap">{calculateTime(dataObject.streamStartTime)}</h3> : <></>}
           </>
         :
           <>

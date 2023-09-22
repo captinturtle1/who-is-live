@@ -19,6 +19,15 @@ if (process.env.NODE_ENV == 'production') {
 
 // 0 = twitch, 1 = youtube, 2 = kick
 const StreamerCard = ({dataObject, displayThumbnails}) => {
+
+  const calculateTime = (startedAt) => {
+    let now = Date.now() / 1000;
+    let elapsedTime = Math.round(now - startedAt);
+    let date = new Date(null);
+    date.setSeconds(elapsedTime);
+    return date.toISOString().slice(11, 19);
+  }
+  
   return(
     <a 
       href={dataObject.streamURL}
@@ -41,7 +50,8 @@ const StreamerCard = ({dataObject, displayThumbnails}) => {
               {dataObject.catagory ? (<h2>• {dataObject.catagory}</h2>):(<></>)}
               
             </div>
-            <h3 className="text-xs wrap font-bold">{dataObject.streamTitle}</h3>
+            <h3 className="text-xs wrap font-bold mb-1">{dataObject.streamTitle}</h3>
+            <h3 className="text-xs wrap">{calculateTime(dataObject.streamStartTime)}</h3>
           </>
         :
           <>

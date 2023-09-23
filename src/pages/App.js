@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
-import AddRemove from "./AddRemove.js";
-import Help from "./Help.js";
+import AddRemove from "../AddRemove.js";
+import Help from "../Help.js";
 
 import { MdVerified } from 'react-icons/md';
 import { BiRefresh } from 'react-icons/bi';
@@ -35,30 +35,30 @@ const StreamerCard = ({dataObject, displayThumbnails}) => {
       className="bg-blue-500 p-2 h-fit rounded gap-2 flex flex-col shadow hover:-translate-y-1 transition-all"
     >
       <div className="flex gap-2">
-      <img src={dataObject.profileImageURL} className={dataObject.live ? "w-12 h-12 lg:w-24 lg:h-24 rounded-full" : "w-12 h-12 lg:w-24 lg:h-24 rounded-full grayscale"}/>
-      <div>
-        <h1 className="font-bold text-lg lg:text-xl flex gap-2">{dataObject.displayName}
-          <span className="mt-2 mr-auto flex gap-2">
-            {dataObject.verified ? <MdVerified/> : <></>}
-            {dataObject.platform == 0 ? <BsTwitch/> : dataObject.platform == 1 ? <BsYoutube/> : <RiKickFill/>}</span>
-        </h1>
-        {dataObject.live ? 
-          <>
-            <div className="flex gap-1">
-              <div className="mt-2 w-3 h-3 bg-red-500 rounded-full"></div>
-              <h2>{dataObject.viewers}</h2>
-              {dataObject.catagory ? (<h2>• {dataObject.catagory}</h2>):(<></>)}
-              
-            </div>
-            <h3 className="text-xs wrap font-bold mb-1">{dataObject.streamTitle}</h3>
-            {dataObject.platform != 1 ? <h3 className="text-xs wrap">{calculateTime(dataObject.streamStartTime)}</h3> : <></>}
-          </>
-        :
-          <>
-            <h2>Offline</h2>
-          </>
-        }
-      </div>
+        <img src={dataObject.profileImageURL} className={dataObject.live ? "w-12 h-12 lg:w-24 lg:h-24 rounded-full" : "w-12 h-12 lg:w-24 lg:h-24 rounded-full grayscale"}/>
+        <div>
+          <h1 className="font-bold text-lg lg:text-xl flex gap-2">{dataObject.displayName}
+            <span className="mt-2 mr-auto flex gap-2">
+              {dataObject.verified ? <MdVerified/> : <></>}
+              {dataObject.platform == 0 ? <BsTwitch/> : dataObject.platform == 1 ? <BsYoutube/> : <RiKickFill/>}</span>
+          </h1>
+          {dataObject.live ? 
+            <>
+              <div className="flex gap-1">
+                <div className="mt-2 w-3 h-3 bg-red-500 rounded-full"></div>
+                <h2>{dataObject.viewers}</h2>
+                {dataObject.catagory ? (<h2>• {dataObject.catagory}</h2>):(<></>)}
+                
+              </div>
+              <h3 className="text-xs wrap font-bold mb-1">{dataObject.streamTitle}</h3>
+              {dataObject.platform != 1 ? <h3 className="text-xs wrap">{calculateTime(dataObject.streamStartTime)}</h3> : <></>}
+            </>
+          :
+            <>
+              <h2>Offline</h2>
+            </>
+          }
+        </div>
       </div>
       {displayThumbnails ? <img className="rounded" src={dataObject.streamThumbnail}/> : <></>}
     </a>

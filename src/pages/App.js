@@ -313,7 +313,7 @@ export default function App() {
               )}
             </>
           }
-          {fetching ? <ImSpinner2 className="m-auto text-3xl my-5 animate-spin col-span-3"/> : <></>}
+          {fetching ? <ImSpinner2 className="m-auto text-3xl my-5 animate-spin lg:col-span-3"/> : <></>}
         </div>
       </div>
       <div className="flex mx-auto gap-8">

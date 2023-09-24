@@ -3,66 +3,19 @@ import Cookies from "js-cookie";
 
 import AddRemove from "../components/AddRemove.js";
 import Help from "../Help.js";
+import SliderToggle from "../components/SliderToggle.js";
+import Button from "../components/Button.js";
+import StreamerCard from "../components/StreamerCard.js";
 
-import { MdVerified } from 'react-icons/md';
+
 import { BiRefresh } from 'react-icons/bi';
 import { ImSpinner2 } from 'react-icons/im';
-import { BsTwitch, BsYoutube } from 'react-icons/bs';
-import { RiKickFill } from 'react-icons/ri';
 
 let apiURL = '';
 if (process.env.NODE_ENV == 'production') {
   apiURL = 'https://api.isanyone.live';
 } else {
   apiURL = 'https://api.isanyone.live';
-}
-
-// 0 = twitch, 1 = youtube, 2 = kick
-const StreamerCard = ({dataObject, displayThumbnails}) => {
-
-  const calculateTime = (startedAt) => {
-    let now = Date.now() / 1000;
-    let elapsedTime = Math.round(now - startedAt);
-    let date = new Date(null);
-    date.setSeconds(elapsedTime);
-    return date.toISOString().slice(11, 19);
-  }
-
-  return(
-    <a 
-      href={dataObject.streamURL}
-      target="_blank"
-      className="bg-blue-500 p-2 h-fit rounded gap-2 flex flex-col shadow hover:-translate-y-1 transition-all"
-    >
-      <div className="flex gap-2">
-        <img src={dataObject.profileImageURL} className={dataObject.live ? "w-12 h-12 lg:w-24 lg:h-24 rounded-full" : "w-12 h-12 lg:w-24 lg:h-24 rounded-full grayscale"}/>
-        <div>
-          <h1 className="font-bold text-lg lg:text-xl flex gap-2">{dataObject.displayName}
-            <span className="mt-2 mr-auto flex gap-2">
-              {dataObject.verified ? <MdVerified/> : <></>}
-              {dataObject.platform == 0 ? <BsTwitch/> : dataObject.platform == 1 ? <BsYoutube/> : <RiKickFill/>}</span>
-          </h1>
-          {dataObject.live ? 
-            <>
-              <div className="flex gap-1">
-                <div className="mt-2 w-3 h-3 bg-red-500 rounded-full"></div>
-                <h2>{dataObject.viewers}</h2>
-                {dataObject.catagory ? (<h2>• {dataObject.catagory}</h2>):(<></>)}
-                
-              </div>
-              <h3 className="text-xs wrap font-bold mb-1">{dataObject.streamTitle}</h3>
-              {dataObject.platform != 1 ? <h3 className="text-xs wrap">{calculateTime(dataObject.streamStartTime)}</h3> : <></>}
-            </>
-          :
-            <>
-              <h2>Offline</h2>
-            </>
-          }
-        </div>
-      </div>
-      {displayThumbnails ? <img className="rounded" src={dataObject.streamThumbnail}/> : <></>}
-    </a>
-  )
 }
 
 export default function App() {
@@ -80,6 +33,7 @@ export default function App() {
 
   const [displayOffline, setDisplayOffline] = useState(true);
   const [displayThumbnails, setDisplayThumbnails] = useState(true);
+  const [darkMode, setDarkMode] = useState(true);
   
   useEffect(() => {
     getCookies();
@@ -102,30 +56,32 @@ export default function App() {
     retrieveStreamData(newData[0], newData[1], newData[2]);
   }
 
-  const setOptionsCookie = (optionsObject) => {
+  // 0 = displayOffline, 1 = displayThumbnails, 2 = darkMode
+  const setOptionsCookie = (update, option) => {
+    let optionsObject = {
+      displayOffline: option == 0 ? update : displayOffline,
+      displayThumbnails: option == 1 ? update : displayThumbnails,
+      darkMode: option == 2 ? update : darkMode,
+    };
+
     let optionsString = JSON.stringify(optionsObject);
 
     Cookies.set('user-settings', optionsString, { expires: 365 })
   }
 
   const handleToggleViewOffline = () => {
-    let optionsObject = {
-      displayOffline: !displayOffline,
-      displayThumbnails: displayThumbnails
-    };
-
     setDisplayOffline(!displayOffline);
-    setOptionsCookie(optionsObject);
+    setOptionsCookie(!displayOffline, 0);
   }
 
   const handleThumbnailToggle = () => {
-    let optionsObject = {
-      displayOffline: displayOffline,
-      displayThumbnails: !displayThumbnails
-    };
-
     setDisplayThumbnails(!displayThumbnails);
-    setOptionsCookie(optionsObject);
+    setOptionsCookie(!displayThumbnails, 1);
+  }
+
+  const handleToggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    setOptionsCookie(!darkMode, 2);
   }
 
   const getCookies = () => {
@@ -157,6 +113,8 @@ export default function App() {
     if (optionsData) {
       optionsData = JSON.parse(optionsData);
       setDisplayOffline(optionsData.displayOffline);
+      setDisplayThumbnails(optionsData.displayThumbnails);
+      setDarkMode(optionsData.darkMode);
     }
     retrieveStreamData(twitchData, youtubeData, kickData);
   }
@@ -280,17 +238,26 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-800 p-8">
-      <div className="flex mx-auto gap-4">
-        <button onClick={() => setIsAddRemoveOpen(true)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2">Edit</button>
-        <button onClick={() => retrieveStreamData(twitchList, youtubeList, kickList)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2 text-2xl"><BiRefresh/></button>
-        <button onClick={() => setIsHelpOpen(true)} className="mx-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded my-2">Help</button>
-      </div>
-      <div className="mx-auto flex flex-col text-zinc-100 my-8">
+    <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-slate-800 text-white' : 'bg-zinc-200 text-black'} p-8 transition-all`}>
+      <div className="mx-auto flex flex-col">
         <h1 className="text-lg lg:text-5xl font-bold">IS ANYONE LIVE?</h1>
-        <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className="text-blue-200 hover:text-blue-300 transition-all">captinturtle</a></h2>
+        <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className={`${darkMode ? 'text-blue-200 hover:text-blue-300' : 'text-blue-800 hover:text-blue-900'} transition-all`}>captinturtle</a></h2>
       </div>
-      <div className="text-white gap-8 flex">
+      <div className="flex mx-auto gap-4 my-4">
+        <Button
+          doOnClick={() => setIsAddRemoveOpen(true)}
+          displayText={'Edit'}
+        />
+        <Button
+          doOnClick={() => retrieveStreamData(twitchList, youtubeList, kickList)}
+          displayText={<BiRefresh className="text-2xl"/>}
+        />
+        <Button
+          doOnClick={() => setIsHelpOpen(true)}
+          displayText={'Help'}
+        />
+      </div>
+      <div className="gap-8 flex">
         <div className="grid w-screen xl:px-[10vw] grid-cols-1 lg:grid-cols-3 gap-4">
           {displayOffline ?
             <>
@@ -299,6 +266,7 @@ export default function App() {
                   key={dataObject.name}
                   dataObject={dataObject}
                   displayThumbnails={displayThumbnails}
+                  darkMode={darkMode}
                 />
               )}
             </>
@@ -309,6 +277,7 @@ export default function App() {
                   key={dataObject.name}
                   dataObject={dataObject}
                   displayThumbnails={displayThumbnails}
+                  darkMode={darkMode}
                 />
               )}
             </>
@@ -317,26 +286,21 @@ export default function App() {
         </div>
       </div>
       <div className="flex mx-auto gap-8">
-        <div>
-          <h2 className="mx-auto text-white font-bold mt-5">Display Offline</h2>
-          <div onClick={handleToggleViewOffline} className={displayOffline ? 
-            "w-12 h-6 bg-blue-500 flex mx-auto mt-2 rounded-full cursor-pointer" : 
-            "w-12 h-6 bg-red-400 flex mx-auto mt-2 rounded-full cursor-pointer"}
-          >
-            <div className={displayOffline ? "flex-grow transition-all" : "transition-all"}/>
-            <div className="text-white bg-white transition-all rounded-full w-6 h-6"/>
-          </div>
-        </div>
-        <div>
-          <h2 className="mx-auto text-white font-bold mt-5">Display Thumbnails</h2>
-          <div onClick={handleThumbnailToggle} className={displayThumbnails ? 
-            "w-12 h-6 bg-blue-500 flex mx-auto mt-2 rounded-full cursor-pointer" : 
-            "w-12 h-6 bg-red-400 flex mx-auto mt-2 rounded-full cursor-pointer"}
-          >
-            <div className={displayThumbnails ? "flex-grow transition-all" : "transition-all"}/>
-            <div className="text-white bg-white transition-all rounded-full w-6 h-6"/>
-          </div>
-        </div>
+          <SliderToggle
+            toggleFunction={handleToggleViewOffline}
+            state={displayOffline}
+            displayText={'Display Offline'}
+          />
+          <SliderToggle
+            toggleFunction={handleThumbnailToggle}
+            state={displayThumbnails}
+            displayText={'Display Previews'}
+          />
+          <SliderToggle
+            toggleFunction={handleToggleDarkMode}
+            state={darkMode}
+            displayText={'Dark mode'}
+          />
       </div>
       <div>
         {isAddRemoveOpen ?

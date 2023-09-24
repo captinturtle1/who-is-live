@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 import AddRemove from "../components/AddRemove.js";
-import Help from "../Help.js";
+import Help from "../components/Help.js";
 import SliderToggle from "../components/SliderToggle.js";
 import Button from "../components/Button.js";
 import StreamerCard from "../components/StreamerCard.js";

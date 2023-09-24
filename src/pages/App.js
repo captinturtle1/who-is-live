@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
-import AddRemove from "../AddRemove.js";
+import AddRemove from "../components/AddRemove.js";
 import Help from "../Help.js";
 
 import { MdVerified } from 'react-icons/md';

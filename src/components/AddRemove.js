@@ -35,9 +35,39 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
     setAddedKick([...currentLists[2]]);
   }, [])
 
+  const valdiateInput = (input, platform) => {
+    if (input) {
+      if (input.match(/^[a-zA-Z0-9_]+$/i)) {
+        if (platform == 0) {
+          if (!addedTwitch.includes(input)) {
+            return true;
+          }
+        } else if (platform == 1) {
+          if (!addedYoutube.includes(input)) {
+            return true;
+          }
+        } else {
+          if (!addedKick.includes(input)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  const handleSetPlatform = (platform) => {
+    setPlatformSelected(platform);
+    if (valdiateInput(userInput, platform)) {
+      setValidInput(true);
+    } else {
+      setValidInput(false);
+    }
+  }
+
   const handleUserInput = (e) => {
     setUserInput(e.target.value);
-    if ((e.target.value).match(/^[a-zA-Z0-9_]+$/i)) {
+    if (valdiateInput(e.target.value, platformSelected)) {
       setValidInput(true);
     } else {
       setValidInput(false);
@@ -46,8 +76,9 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
 
   const addChannel = () => {
     setUserInput('');
+    setValidInput(false);
     let newChannels = [];
-    if (platformSelected === 0) {
+    if (valdiateInput(userInput, platformSelected)) {
       newChannels = addedTwitch;
       newChannels.push(userInput);
       setAddedTwitch([...newChannels]);

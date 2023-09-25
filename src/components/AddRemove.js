@@ -79,17 +79,19 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
     setValidInput(false);
     let newChannels = [];
     if (valdiateInput(userInput, platformSelected)) {
-      newChannels = addedTwitch;
-      newChannels.push(userInput);
-      setAddedTwitch([...newChannels]);
-    } else if (platformSelected === 1) {
-      newChannels = addedYoutube
-      newChannels.push(userInput);
-      setAddedYoutube([...newChannels]);
-    } else if (platformSelected === 2) {
-      newChannels = addedKick;
-      newChannels.push(userInput);
-      setAddedKick([...newChannels]);
+      if (platformSelected == 0) {
+        newChannels = addedTwitch;
+        newChannels.push(userInput);
+        setAddedTwitch([...newChannels]);
+      } else if (platformSelected === 1) {
+        newChannels = addedYoutube
+        newChannels.push(userInput);
+        setAddedYoutube([...newChannels]);
+      } else if (platformSelected === 2) {
+        newChannels = addedKick;
+        newChannels.push(userInput);
+        setAddedKick([...newChannels]);
+      }
     }
   }
 
@@ -137,9 +139,9 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
         </form>
         <h1 className="mx-auto">Select platform</h1>
         <div className="flex gap-2 justify-center mb-5">
-          <button onClick={() => setPlatformSelected(0)} className={platformSelected === 0 ? "bg-purple-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-purple-700 p-2 cursor-pointer300 transition-all rounded"}><BsTwitch/></button>
-          <button onClick={() => setPlatformSelected(1)} className={platformSelected === 1 ? "bg-red-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-red-700 p-2 cursor-pointer transition-all rounded"}><BsYoutube/></button>
-          <button onClick={() => setPlatformSelected(2)} className={platformSelected === 2 ? "bg-green-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-green-700 p-2 cursor-pointer transition-all rounded"}><RiKickFill/></button>
+          <button onClick={() => handleSetPlatform(0)} className={platformSelected === 0 ? "bg-purple-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-purple-700 p-2 cursor-pointer300 transition-all rounded"}><BsTwitch/></button>
+          <button onClick={() => handleSetPlatform(1)} className={platformSelected === 1 ? "bg-red-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-red-700 p-2 cursor-pointer transition-all rounded"}><BsYoutube/></button>
+          <button onClick={() => handleSetPlatform(2)} className={platformSelected === 2 ? "bg-green-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-green-700 p-2 cursor-pointer transition-all rounded"}><RiKickFill/></button>
         </div>
         <h2 className="mx-auto font-bold">Currently Added</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 m-auto text-center overflow-auto h-[200px]">

@@ -21,7 +21,7 @@ export default function StreamerCard({dataObject, displayThumbnails, darkMode}) 
       >
         <div className="flex gap-2">
           <img src={dataObject.profileImageURL} className={dataObject.live ? "w-12 h-12 lg:w-24 lg:h-24 rounded-full" : "w-12 h-12 lg:w-24 lg:h-24 rounded-full"}/>
-          <div>
+          <div className='min-w-0'>
             <h1 className="font-bold text-lg lg:text-xl flex gap-2">{dataObject.displayName}
               <span className="mt-2 mr-auto flex gap-2">
                 {dataObject.verified ? <MdVerified/> : <></>}
@@ -35,7 +35,7 @@ export default function StreamerCard({dataObject, displayThumbnails, darkMode}) 
                   {dataObject.catagory ? (<h2>• {dataObject.catagory}</h2>):(<></>)}
                   
                 </div>
-                <h3 className="text-xs wrap font-bold mb-1">{dataObject.streamTitle}</h3>
+                <h3 className="text-xs wrap font-bold mb-1 break-words">{dataObject.streamTitle}</h3>
                 {dataObject.platform != 1 ? <h3 className="text-xs wrap">{calculateTime(dataObject.streamStartTime)}</h3> : <></>}
               </>
             :

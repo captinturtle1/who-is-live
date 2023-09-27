@@ -13,9 +13,9 @@ import { ImSpinner2 } from 'react-icons/im';
 
 let apiURL = '';
 if (process.env.NODE_ENV == 'production') {
-  apiURL = 'https://api.isanyone.live';
+  apiURL = 'https://us-west1-is-anyone-live.cloudfunctions.net';
 } else {
-  apiURL = 'https://api.isanyone.live';
+  apiURL = 'https://us-west1-is-anyone-live.cloudfunctions.net';
 }
 
 export default function App() {

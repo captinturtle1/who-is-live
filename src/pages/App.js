@@ -11,13 +11,6 @@ import StreamerCard from "../components/StreamerCard.js";
 import { BiRefresh } from 'react-icons/bi';
 import { ImSpinner2 } from 'react-icons/im';
 
-let apiURL = '';
-if (process.env.NODE_ENV == 'production') {
-  apiURL = 'https://us-west1-is-anyone-live.cloudfunctions.net';
-} else {
-  apiURL = 'https://us-west1-is-anyone-live.cloudfunctions.net';
-}
-
 export default function App() {
   const [twitchList, setTwitchList] = useState([]);
   const [youtubeList, setYoutubeList] = useState([]);
@@ -132,7 +125,7 @@ export default function App() {
     if (twitchData.length > 0) {
       setFetching(true);
       fetchingTwitch = true;
-      fetch(`${apiURL}/twitch`, {
+      fetch('https://twitch.api.isanyone.live/', {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -168,7 +161,7 @@ export default function App() {
     if (youtubeData.length > 0) {
       setFetching(true);
       fetchingYoutube = true;
-      fetch(`${apiURL}/youtube`, {
+      fetch('https://youtube.api.isanyone.live/', {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -204,7 +197,7 @@ export default function App() {
     if (kickData.length > 0) {
       setFetching(true);
       fetchingKick = true;
-      fetch(`${apiURL}/kick`, {
+      fetch('https://kick.api.isanyone.live/', {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

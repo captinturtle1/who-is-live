@@ -6,12 +6,10 @@ import { RiKickFill } from 'react-icons/ri';
 
 const ChannelList = ({id, list, handleRemove}) => {
   return (
-    <div className="w-32 flex flex-col gap-2">
-      <div>{id === 0 ? 'Twitch' : id === 1 ? 'Youtube' : 'Kick'}</div>
+    <div className="flex flex-col gap-2 h-96 overflow-y-auto">
       {list.map((value, index) => 
-        <div key={value} className="flex bg-blue-500 px-2 rounded">
-          <div className="mr-auto my-auto overflow-hidden text-sm">{value}</div>
-          <ImCross onClick={() => handleRemove(id, index)} className="m-1 text-red-400 hover:text-red-500 transition-all font-black cursor-pointer"/>
+        <div key={value} onClick={() => handleRemove(id, index)} className="flex bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer px-2 rounded">
+          <div className="">{value}</div>
         </div>
       )}
     </div>
@@ -126,32 +124,31 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
 
   return (
     <div onClick={handleCancel} className="fixed left-0 right-0 top-0 bottom-0 flex gap-8 bg-black backdrop-blur bg-opacity-10 text-white">
-      <div onClick={(e) => onClickStopPropagation(e)} className="flex flex-col gap-4 bg-slate-600 rounded m-auto p-8 lg:p-16">
-        <form onSubmit={(e) => e.preventDefault()} className="flex gap-5 m-auto">
-          <input
-            value={userInput}
-            onChange={handleUserInput}
-            placeholder="Channel"
-            pattern="[A-Za-z0-9_]+"
-            className="bg-black focus:bg-zinc-800 outline-none invalid:outline invalid:outline-1 invalid:outline-red-500 p-2 rounded"
-          />
-          <div onClick={validInput ? addChannel : null} className={validInput ? "bg-blue-500 hover:bg-blue-600 transition-all p-2 cursor-pointer rounded" : "bg-gray-500 text-gray-300 transition-all p-2 rounded select-none"}>add</div>
-        </form>
-        <h1 className="mx-auto">Select platform</h1>
-        <div className="flex gap-2 justify-center mb-5">
-          <button onClick={() => handleSetPlatform(0)} className={platformSelected === 0 ? "bg-purple-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-purple-700 p-2 cursor-pointer300 transition-all rounded"}><BsTwitch/></button>
-          <button onClick={() => handleSetPlatform(1)} className={platformSelected === 1 ? "bg-red-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-red-700 p-2 cursor-pointer transition-all rounded"}><BsYoutube/></button>
-          <button onClick={() => handleSetPlatform(2)} className={platformSelected === 2 ? "bg-green-500 p-2 cursor-pointer -translate-y-1 transition-all rounded" : "bg-green-700 p-2 cursor-pointer transition-all rounded"}><RiKickFill/></button>
+      <div onClick={(e) => onClickStopPropagation(e)} className="m-auto">
+        <div className="flex justify-center">
+          <button onClick={() => handleSetPlatform(0)} className={`bg-violet-500 py-2 cursor-pointer rounded-t ${platformSelected == 0 ? "w-full" : "w-32"} flex items-center gap-2 justify-center transition-all font-bold`}><BsTwitch/>{platformSelected == 0 ? "Twitch" : ""}</button>
+          <button onClick={() => handleSetPlatform(1)} className={`bg-red-400 py-2 cursor-pointer rounded-t ${platformSelected == 1 ? "w-full" : "w-32"} flex items-center gap-2 justify-center transition-all font-bold`}><BsYoutube/>{platformSelected == 1 ? "Youtube" : ""}</button>
+          <button onClick={() => handleSetPlatform(2)} className={`bg-green-400 py-2 cursor-pointer rounded-t ${platformSelected == 2 ? "w-full" : "w-32"} flex items-center gap-2 justify-center transition-all font-bold`}><RiKickFill/>{platformSelected == 2 ? "Kick" : ""}</button>
         </div>
-        <h2 className="mx-auto font-bold">Currently Added</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 m-auto text-center overflow-auto h-[200px]">
-          <ChannelList id={0} list={addedTwitch} handleRemove={handleRemove}/>
-          <ChannelList id={1} list={addedYoutube} handleRemove={handleRemove}/>
-          <ChannelList id={2} list={addedKick} handleRemove={handleRemove}/>
-        </div>
-        <div className="flex gap-8">
-          <button onClick={handleCancel} className='ml-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded'>Cancel</button>
-          <button onClick={handleSave} className='mr-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded'>Save</button>
+        <div className={`${platformSelected == 0 ? "bg-violet-500" : platformSelected == 1 ? "bg-red-400" : "bg-green-400"} flex flex-col p-16`}>
+          <form onSubmit={(e) => e.preventDefault()} className="flex  m-auto">
+            <input
+              value={userInput}
+              onChange={handleUserInput}
+              placeholder="Channel"
+              pattern="[A-Za-z0-9_]+"
+              className="bg-black focus:bg-zinc-800 outline-none invalid:outline invalid:outline-1 invalid:outline-red-500 p-2 rounded-l"
+            />
+            <div onClick={validInput ? addChannel : null} className={validInput ? "bg-blue-500 hover:bg-blue-600 transition-all p-2 cursor-pointer rounded-r" : "bg-gray-500 text-gray-300 transition-all p-2 rounded-r select-none"}>add</div>
+          </form>
+          <h2 className="mx-auto font-bold mt-4 mb-2">Click to remove</h2>
+          {platformSelected == 0 ? <ChannelList id={0} list={addedTwitch} handleRemove={handleRemove}/> : <></>}
+          {platformSelected == 1 ? <ChannelList id={1} list={addedYoutube} handleRemove={handleRemove}/> : <></>}
+          {platformSelected == 2 ? <ChannelList id={2} list={addedKick} handleRemove={handleRemove}/> : <></>}
+          <div className="flex gap-8 mt-8">
+            <button onClick={handleCancel} className='ml-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded'>Cancel</button>
+            <button onClick={handleSave} className='mr-auto p-2 text-white bg-blue-500 hover:bg-blue-600 transition-all rounded'>Save</button>
+          </div>
         </div>
       </div>
     </div>

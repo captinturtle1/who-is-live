@@ -11,6 +11,10 @@ import StreamerCard from "../components/StreamerCard.js";
 import { BiRefresh } from 'react-icons/bi';
 import { ImSpinner2 } from 'react-icons/im';
 
+import ReactGA from 'react-ga';
+const TRACKING_ID = "G-WXSX7SL0MF";
+ReactGA.initialize(TRACKING_ID);
+
 export default function App() {
   const [twitchList, setTwitchList] = useState([]);
   const [youtubeList, setYoutubeList] = useState([]);
@@ -30,6 +34,8 @@ export default function App() {
   
   useEffect(() => {
     getCookies();
+    console.log(window.location.pathname + window.location.search)
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }, [])
 
   const setLists = (newData) => {
@@ -268,6 +274,7 @@ export default function App() {
               {allLive.map(dataObject =>
                 <StreamerCard
                   key={dataObject.name}
+                  key={dataObject.name + dataObject.platform}
                   dataObject={dataObject}
                   displayThumbnails={displayThumbnails}
                   darkMode={darkMode}

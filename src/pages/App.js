@@ -11,7 +11,7 @@ import StreamerCard from "../components/StreamerCard.js";
 import { BiRefresh } from 'react-icons/bi';
 import { ImSpinner2 } from 'react-icons/im';
 
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga4";
 const TRACKING_ID = "G-WXSX7SL0MF";
 ReactGA.initialize(TRACKING_ID);
 
@@ -34,8 +34,8 @@ export default function App() {
   
   useEffect(() => {
     getCookies();
-    console.log(window.location.pathname + window.location.search)
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.send({ hitType: "pageview", page: "/", title: "Home" });
+    console.log("yep!")
   }, [])
 
   const setLists = (newData) => {

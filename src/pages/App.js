@@ -35,7 +35,6 @@ export default function App() {
   useEffect(() => {
     getCookies();
     ReactGA.send({ hitType: "pageview", page: "/", title: "Home" });
-    console.log("yep!")
   }, [])
 
   const setLists = (newData) => {

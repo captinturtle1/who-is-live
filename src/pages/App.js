@@ -262,7 +262,7 @@ export default function App() {
             <>
               {allData.map(dataObject =>
                 <StreamerCard
-                  key={dataObject.name}
+                  key={dataObject.name + dataObject.platform}
                   dataObject={dataObject}
                   displayThumbnails={displayThumbnails}
                   darkMode={darkMode}
@@ -273,7 +273,6 @@ export default function App() {
             <>
               {allLive.map(dataObject =>
                 <StreamerCard
-                  key={dataObject.name}
                   key={dataObject.name + dataObject.platform}
                   dataObject={dataObject}
                   displayThumbnails={displayThumbnails}

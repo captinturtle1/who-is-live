@@ -131,6 +131,12 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
           <button onClick={() => handleSetPlatform(2)} className={`bg-green-400 py-2 cursor-pointer rounded-t ${platformSelected == 2 ? "w-full" : "w-32"} flex items-center gap-2 justify-center transition-all font-bold`}><RiKickFill/>{platformSelected == 2 ? "Kick" : ""}</button>
         </div>
         <div className={`${platformSelected == 0 ? "bg-violet-500" : platformSelected == 1 ? "bg-red-400" : "bg-green-400"} flex flex-col p-16`}>
+          {platformSelected == 0 ?
+            <a 
+              href="https://id.twitch.tv/oauth2/authorize?response_type=token&redirect_uri=http://localhost:3000/twitchimport&scope=user:read:follows&client_id=1zhazzeh06yvmnb52iiixw5s8e60qk"
+              className="bg-blue-500 hover:bg-blue-600 transition-all rounded p-2 mb-2 w-fit m-auto flex items-center gap-1"><BsTwitch/> Import with Twitch
+            </a>  
+          : <></>}
           <form onSubmit={(e) => e.preventDefault()} className="flex  m-auto">
             <input
               value={userInput}

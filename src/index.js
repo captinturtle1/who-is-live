@@ -6,6 +6,7 @@ import './index.css';
 
 import App from './pages/App';
 import Privacy from './pages/Privacy';
+import TwitchImport from './pages/TwitchImport';
 
 import {
   BrowserRouter,
@@ -20,6 +21,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App/>} />
         <Route path="/privacypolicy" element={<Privacy/>} />
+        <Route path="/twitchimport" element={<TwitchImport/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -19,7 +19,7 @@ export default function TwitchImport() {
 
         let twitchData = Cookies.get('twitch-list');
         if (twitchData) {
-            parsedData = JSON.parse(twitchData);
+            let parsedData = JSON.parse(twitchData);
             setCurrentTwitch([...parsedData]);
         }
         

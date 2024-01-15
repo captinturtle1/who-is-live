@@ -133,7 +133,7 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
         <div className={`${platformSelected == 0 ? "bg-violet-500" : platformSelected == 1 ? "bg-red-400" : "bg-green-400"} flex flex-col p-16`}>
           {platformSelected == 0 ?
             <a 
-              href="https://id.twitch.tv/oauth2/authorize?response_type=token&redirect_uri=http://localhost:3000/twitchimport&scope=user:read:follows&client_id=1zhazzeh06yvmnb52iiixw5s8e60qk"
+              href="https://id.twitch.tv/oauth2/authorize?response_type=token&redirect_uri=https://isanyone.live/twitchimport&scope=user:read:follows&client_id=1zhazzeh06yvmnb52iiixw5s8e60qk"
               className="bg-blue-500 hover:bg-blue-600 transition-all rounded p-2 mb-2 w-fit m-auto flex items-center gap-1"><BsTwitch/> Import with Twitch
             </a>  
           : <></>}

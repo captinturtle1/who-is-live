@@ -6,6 +6,7 @@ const appId = "1zhazzeh06yvmnb52iiixw5s8e60qk";
 export default function TwitchImport() {
     const [authSuccess, setAuthSuccess] = useState(false);
     const [userFollowers, setUserFollowers] = useState([]);
+    const [currentTwitch, setCurrentTwitch] = useState([]);
 
     useEffect(() => {
         if (document.location.hash.includes("access_token")) {
@@ -14,6 +15,12 @@ export default function TwitchImport() {
             at = at[1].split("&")[0];
 
             getFollowing(at);
+        }
+
+        let twitchData = Cookies.get('twitch-list');
+        if (twitchData) {
+            parsedData = JSON.parse(twitchData);
+            setCurrentTwitch([...parsedData]);
         }
         
     }, []);
@@ -79,25 +86,20 @@ export default function TwitchImport() {
         console.log(following);
         let newArray = [];
         for (let i = 0; i < following.length; i++) {
-            newArray.push(following[i].broadcaster_login)
+            if (!currentTwitch.includes(following[i].broadcaster_login)) newArray.push(following[i].broadcaster_login)
         }
         
         setUserFollowers([...newArray]);
     }
 
     const handleImport = () => {
-        let twitchData = Cookies.get('twitch-list');
-        let parsedData = [];
-
-        if (twitchData) {
-            parsedData = JSON.parse(twitchData);
-        }
+        let newArray = currentTwitch;
 
         for (let i = 0; i < userFollowers.length; i++) {
-            parsedData.push(userFollowers[i]);
+            newArray.push(userFollowers[i]);
         }
 
-        Cookies.set('twitch-list', JSON.stringify(parsedData), { expires: 365 });
+        Cookies.set('twitch-list', JSON.stringify(newArray), { expires: 365 });
         window.location.href = "/";
     }
 
@@ -105,7 +107,7 @@ export default function TwitchImport() {
         let newArray = userFollowers;
         newArray.splice(index, 1);
         setUserFollowers([...newArray]);
-      }
+    }
 
     return(
         <div className="h-screen bg-slate-800 text-white">

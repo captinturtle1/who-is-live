@@ -3,6 +3,8 @@ import Cookies from "js-cookie";
 
 import AddRemove from "../components/AddRemove.js";
 import Help from "../components/Help.js";
+import Settings from "../components/Settings.js";
+
 import SliderToggle from "../components/SliderToggle.js";
 import Button from "../components/Button.js";
 import StreamerCard from "../components/StreamerCard.js";
@@ -22,6 +24,7 @@ export default function App() {
 
   const [isAddRemoveOpen, setIsAddRemoveOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const [allLive, setAllLive] = useState([]);
   const [allData, setAllData] = useState([]);
@@ -256,6 +259,10 @@ export default function App() {
           doOnClick={() => setIsHelpOpen(true)}
           displayText={'Help'}
         />
+        <Button
+          doOnClick={() => setIsSettingsOpen(true)}
+          displayText={'Settings'}
+        />
       </div>
       <div className="gap-8 flex">
         <div className="grid w-screen xl:px-[10vw] grid-cols-1 lg:grid-cols-3 gap-4">
@@ -285,23 +292,6 @@ export default function App() {
           {fetching ? <ImSpinner2 className="m-auto text-3xl my-5 animate-spin lg:col-span-3"/> : <></>}
         </div>
       </div>
-      <div className="flex mx-auto gap-8">
-          <SliderToggle
-            toggleFunction={handleToggleViewOffline}
-            state={displayOffline}
-            displayText={'Display Offline'}
-          />
-          <SliderToggle
-            toggleFunction={handleThumbnailToggle}
-            state={displayThumbnails}
-            displayText={'Display Previews'}
-          />
-          <SliderToggle
-            toggleFunction={handleToggleDarkMode}
-            state={darkMode}
-            displayText={'Dark mode'}
-          />
-      </div>
       <div>
         {isAddRemoveOpen ?
           <AddRemove
@@ -318,6 +308,22 @@ export default function App() {
         {isHelpOpen ?
           <Help
             setIsHelpOpen={setIsHelpOpen}
+          /> 
+        : 
+          <></>
+        }
+      </div>
+
+      <div>
+        {isSettingsOpen ?
+          <Settings
+            setIsSettingsOpen={setIsSettingsOpen}
+            handleToggleViewOffline={handleToggleViewOffline}
+            displayOffline={displayOffline}
+            handleThumbnailToggle={handleThumbnailToggle}
+            displayThumbnails={displayThumbnails}
+            handleToggleDarkMode={handleToggleDarkMode}
+            darkMode={darkMode}
           /> 
         : 
           <></>

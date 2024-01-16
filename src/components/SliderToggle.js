@@ -1,6 +1,6 @@
 export default function SliderToggle({toggleFunction, state, displayText}) {
     return (
-        <div>
+        <div className="m-auto">
             <h2 className="mx-auto font-bold mt-5">{displayText}</h2>
             <div onClick={toggleFunction} className={state ? 
               "w-12 h-6 bg-blue-500 flex mx-auto mt-2 rounded-full cursor-pointer" : 

@@ -9,6 +9,12 @@ export default function TwitchImport() {
     const [currentTwitch, setCurrentTwitch] = useState([]);
 
     useEffect(() => {
+        let twitchData = Cookies.get('twitch-list');
+        if (twitchData) {
+            let twitchCookies = JSON.parse(twitchData);
+            setCurrentTwitch([...twitchCookies]);
+        }
+
         if (document.location.hash.includes("access_token")) {
             setAuthSuccess(true);
             let at = document.location.hash.split("=")
@@ -16,13 +22,6 @@ export default function TwitchImport() {
 
             getFollowing(at);
         }
-
-        let twitchData = Cookies.get('twitch-list');
-        if (twitchData) {
-            let parsedData = JSON.parse(twitchData);
-            setCurrentTwitch([...parsedData]);
-        }
-        
     }, []);
 
     const getUserId = async (at) => {
@@ -81,11 +80,11 @@ export default function TwitchImport() {
 
     const getFollowing = async (at) => {
         let userId = await getUserId(at);
-
         let following = await getFollowList(at, userId, []);
+
         let newArray = [];
         for (let i = 0; i < following.length; i++) {
-            if (!currentTwitch.includes(following[i].broadcaster_login)) newArray.push(following[i].broadcaster_login)
+            newArray.push(following[i].broadcaster_login)
         }
         
         setUserFollowers([...newArray]);
@@ -95,7 +94,7 @@ export default function TwitchImport() {
         let newArray = currentTwitch;
 
         for (let i = 0; i < userFollowers.length; i++) {
-            newArray.push(userFollowers[i]);
+            if (!currentTwitch.includes(userFollowers[i])) newArray.push(userFollowers[i]);
         }
 
         Cookies.set('twitch-list', JSON.stringify(newArray), { expires: 365 });

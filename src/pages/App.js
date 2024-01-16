@@ -246,10 +246,12 @@ export default function App() {
           doOnClick={() => setIsAddRemoveOpen(true)}
           displayText={'Edit'}
         />
-        <Button
-          doOnClick={() => retrieveStreamData(twitchList, youtubeList, kickList)}
-          displayText={<BiRefresh className="text-2xl"/>}
-        />
+        <button
+          onClick={fetching ? null : () => retrieveStreamData(twitchList, youtubeList, kickList)}
+          className={`x-auto p-2 text-white ${fetching ? "bg-gray-500 cursor-default" : "bg-blue-500 hover:bg-blue-600"} transition-all rounded my-2 text-2xl`}
+        >
+            <BiRefresh className={fetching ? "animate-reverse-spin" : ""}/>
+        </button>
         <Button
           doOnClick={() => setIsHelpOpen(true)}
           displayText={'Help'}

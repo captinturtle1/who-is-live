@@ -254,7 +254,7 @@ export default function App() {
         <div className="flex flex-col m-auto">
           <h1 className="m-atuo text-2xl font-bold">First time?</h1>
           <Button
-            doOnClick={() => setIsAddRemoveOpen(true)}
+            doOnClick={() => setIsAddRemoveOpen(true) || setFirstTime(false)}
             displayText={'Get started!'}
           />
         </div>

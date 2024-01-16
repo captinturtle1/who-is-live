@@ -31,6 +31,8 @@ export default function App() {
   const [displayOffline, setDisplayOffline] = useState(true);
   const [displayThumbnails, setDisplayThumbnails] = useState(true);
   const [darkMode, setDarkMode] = useState(true);
+
+  const [firstTime, setFirstTime] = useState(false);
   
   useEffect(() => {
     getCookies();
@@ -87,6 +89,13 @@ export default function App() {
     let youtubeData = Cookies.get('youtube-list');
     let kickData = Cookies.get('kick-list');
     let optionsData = Cookies.get('user-settings');
+
+    if (twitchData || youtubeData || kickData || optionsData) {
+      setFirstTime(false);
+    } else {
+      setFirstTime(true);
+    }
+
     if (twitchData) {
       twitchData = JSON.parse(twitchData);
       setTwitchList([...twitchData]);
@@ -241,91 +250,93 @@ export default function App() {
         <h1 className="text-lg lg:text-5xl font-bold">IS ANYONE LIVE?</h1>
         <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className={`${darkMode ? 'text-blue-200 hover:text-blue-300' : 'text-blue-800 hover:text-blue-900'} transition-all`}>captinturtle</a></h2>
       </div>
-      <div className="flex mx-auto gap-4 my-4">
-        <Button
-          doOnClick={() => setIsAddRemoveOpen(true)}
-          displayText={'Edit'}
-        />
-        <button
-          onClick={fetching ? null : () => retrieveStreamData(twitchList, youtubeList, kickList)}
-          className={`x-auto p-2 text-white ${fetching ? "bg-gray-500 cursor-default" : "bg-blue-500 hover:bg-blue-600"} transition-all rounded my-2 text-2xl`}
-        >
-            <BiRefresh className={fetching ? "animate-reverse-spin" : ""}/>
-        </button>
-        <Button
-          doOnClick={() => setIsHelpOpen(true)}
-          displayText={'Help'}
-        />
-        <Button
-          doOnClick={() => setIsSettingsOpen(true)}
-          displayText={'Settings'}
-        />
-      </div>
-      <div className="gap-8 flex">
-        <div className="grid w-screen xl:px-[10vw] grid-cols-1 lg:grid-cols-3 gap-4">
-          {displayOffline ?
-            <>
-              {allData.map(dataObject =>
-                <StreamerCard
-                  key={dataObject.name + dataObject.platform}
-                  dataObject={dataObject}
-                  displayThumbnails={displayThumbnails}
-                  darkMode={darkMode}
-                />
-              )}
-            </>
-          : 
-            <>
-              {allLive.map(dataObject =>
-                <StreamerCard
-                  key={dataObject.name + dataObject.platform}
-                  dataObject={dataObject}
-                  displayThumbnails={displayThumbnails}
-                  darkMode={darkMode}
-                />
-              )}
-            </>
-          }
-          {fetching ? <ImSpinner2 className="m-auto text-3xl my-5 animate-spin lg:col-span-3"/> : <></>}
+      {firstTime ? 
+        <div className="flex flex-col m-auto">
+          <h1 className="m-atuo text-2xl font-bold">First time?</h1>
+          <Button
+            doOnClick={() => setIsAddRemoveOpen(true)}
+            displayText={'Get started!'}
+          />
         </div>
-      </div>
-      <div>
-        {isAddRemoveOpen ?
-          <AddRemove
-            setIsAddRemoveOpen={setIsAddRemoveOpen}
-            setLists={setLists}
-            currentLists={[twitchList, youtubeList, kickList]}
-          /> 
-        : 
-          <></>
-        }
-      </div>
+      : 
+        <>
+          <div className="flex mx-auto gap-4 my-4">
+            <Button
+              doOnClick={() => setIsAddRemoveOpen(true)}
+              displayText={'Edit'}
+            />
+            <button
+              onClick={fetching ? null : () => retrieveStreamData(twitchList, youtubeList, kickList)}
+              className={`x-auto p-2 text-white ${fetching ? "bg-gray-500 cursor-default" : "bg-blue-500 hover:bg-blue-600"} transition-all rounded my-2 text-2xl`}
+            >
+                <BiRefresh className={fetching ? "animate-reverse-spin" : ""}/>
+            </button>
+            <Button
+              doOnClick={() => setIsSettingsOpen(true)}
+              displayText={'Settings'}
+            />
+          </div>
+          <div className="gap-8 flex">
+            <div className="grid w-screen xl:px-[10vw] grid-cols-1 lg:grid-cols-3 gap-4">
+              {displayOffline ?
+                <>
+                  {allData.map(dataObject =>
+                    <StreamerCard
+                      key={dataObject.name + dataObject.platform}
+                      dataObject={dataObject}
+                      displayThumbnails={displayThumbnails}
+                      darkMode={darkMode}
+                    />
+                  )}
+                </>
+              : 
+                <>
+                  {allLive.map(dataObject =>
+                    <StreamerCard
+                      key={dataObject.name + dataObject.platform}
+                      dataObject={dataObject}
+                      displayThumbnails={displayThumbnails}
+                      darkMode={darkMode}
+                    />
+                  )}
+                </>
+              }
+              {fetching ? <ImSpinner2 className="m-auto text-3xl my-5 animate-spin lg:col-span-3"/> : <></>}
+            </div>
+          </div>
 
-      <div>
-        {isHelpOpen ?
-          <Help
-            setIsHelpOpen={setIsHelpOpen}
-          /> 
-        : 
-          <></>
-        }
-      </div>
+          
 
-      <div>
-        {isSettingsOpen ?
-          <Settings
-            setIsSettingsOpen={setIsSettingsOpen}
-            handleToggleViewOffline={handleToggleViewOffline}
-            displayOffline={displayOffline}
-            handleThumbnailToggle={handleThumbnailToggle}
-            displayThumbnails={displayThumbnails}
-            handleToggleDarkMode={handleToggleDarkMode}
-            darkMode={darkMode}
-          /> 
-        : 
-          <></>
-        }
-      </div>
+        </>
+      }
+
+        <div>
+          {isAddRemoveOpen ?
+            <AddRemove
+              setIsAddRemoveOpen={setIsAddRemoveOpen}
+              setLists={setLists}
+              currentLists={[twitchList, youtubeList, kickList]}
+            /> 
+          : 
+            <></>
+          }
+        </div>
+
+        <div>
+          {isSettingsOpen ?
+            <Settings
+              setIsSettingsOpen={setIsSettingsOpen}
+              handleToggleViewOffline={handleToggleViewOffline}
+              displayOffline={displayOffline}
+              handleThumbnailToggle={handleThumbnailToggle}
+              displayThumbnails={displayThumbnails}
+              handleToggleDarkMode={handleToggleDarkMode}
+              darkMode={darkMode}
+            /> 
+          : 
+            <></>
+          }
+        </div>
     </div>
   )
 }

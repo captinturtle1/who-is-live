@@ -83,7 +83,6 @@ export default function TwitchImport() {
         let userId = await getUserId(at);
 
         let following = await getFollowList(at, userId, []);
-        console.log(following);
         let newArray = [];
         for (let i = 0; i < following.length; i++) {
             if (!currentTwitch.includes(following[i].broadcaster_login)) newArray.push(following[i].broadcaster_login)

@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 import AddRemove from "../components/AddRemove.js";
-import Help from "../components/Help.js";
 import Settings from "../components/Settings.js";
 
-import SliderToggle from "../components/SliderToggle.js";
 import Button from "../components/Button.js";
 import StreamerCard from "../components/StreamerCard.js";
 
@@ -23,7 +21,6 @@ export default function App() {
   const [kickList, setKickList] = useState([]);
 
   const [isAddRemoveOpen, setIsAddRemoveOpen] = useState(false);
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const [allLive, setAllLive] = useState([]);

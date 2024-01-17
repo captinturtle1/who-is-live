@@ -107,12 +107,12 @@ export default function TwitchImport() {
     }
 
     return(
-        <div className="h-screen bg-slate-800 text-white">
+        <div className="min-h-screen bg-slate-800 text-white p-16">
             {authSuccess ? (
                 <div className="flex flex-col gap-2">
                     <h1 className="m-auto text-lg font-bold">Channels to import</h1>
                     <h2 className="m-auto">Click to remove</h2>
-                    <div className="flex flex-wrap gap-2 mx-64">
+                    <div className="flex flex-wrap gap-2">
                         {userFollowers.map((value, index) => 
                             <div key={value} onClick={() => handleRemove(index)} className="bg-violet-500 hover:bg-violet-600 transition-all rounded cursor-pointer p-2 select-none">{value}</div>
                         )}

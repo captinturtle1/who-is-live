@@ -8,13 +8,16 @@ const kickMax = 50
 
 const ChannelList = ({id, list, handleRemove}) => {
   return (
-    <div className="flex flex-col gap-2 h-96 overflow-y-auto">
-      {list.map((value, index) => 
-        <div key={value} onClick={() => handleRemove(id, index)} className="flex bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer px-2 rounded">
-          <div className="">{value}</div>
-        </div>
-      )}
-    </div>
+    <>{list.length > 0 ? <h2 className="mx-auto font-bold mt-4 mb-2">Click to remove</h2> : <></>}
+      <div className="flex flex-col gap-2 h-96 overflow-y-auto">
+        
+        {list.map((value, index) => 
+          <div key={value} onClick={() => handleRemove(id, index)} className="flex bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer px-2 rounded">
+            <div className="">{value}</div>
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 
@@ -131,7 +134,8 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
           {platformSelected == 0 ?
             <a 
               href="https://id.twitch.tv/oauth2/authorize?response_type=token&redirect_uri=https://isanyone.live/twitchimport&scope=user:read:follows&client_id=1zhazzeh06yvmnb52iiixw5s8e60qk"
-              className="bg-blue-500 hover:bg-blue-600 transition-all rounded p-2 mb-2 w-fit m-auto flex items-center gap-1"><BsTwitch/> Import with Twitch
+              className="bg-blue-500 hover:bg-blue-600 transition-all rounded p-2 mb-2 w-fit m-auto flex items-center gap-1">
+                <BsTwitch/> Import with Twitch
             </a>  
           : <h3 className="m-auto text-sm">50 channels max</h3>}
           
@@ -146,7 +150,6 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
             <div onClick={validInput ? addChannel : null} className={validInput ? "bg-blue-500 hover:bg-blue-600 transition-all p-2 cursor-pointer rounded-r" : "bg-gray-500 text-gray-300 transition-all p-2 rounded-r select-none"}>add</div>
           </form>
 
-          <h2 className="mx-auto font-bold mt-4 mb-2">Click to remove</h2>
           {platformSelected == 0 ? <ChannelList id={0} list={addedTwitch} handleRemove={handleRemove}/> : <></>}
           {platformSelected == 1 ? <ChannelList id={1} list={addedYoutube} handleRemove={handleRemove}/> : <></>}
           {platformSelected == 2 ? <ChannelList id={2} list={addedKick} handleRemove={handleRemove}/> : <></>}

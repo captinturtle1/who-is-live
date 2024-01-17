@@ -9,6 +9,7 @@ import StreamerCard from "../components/StreamerCard.js";
 
 import { BiRefresh } from 'react-icons/bi';
 import { ImSpinner2 } from 'react-icons/im';
+import { FaGithub } from "react-icons/fa";
 
 import ReactGA from "react-ga4";
 const TRACKING_ID = "G-WXSX7SL0MF";
@@ -248,7 +249,10 @@ export default function App() {
     <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-slate-800 text-white' : 'bg-zinc-200 text-black'} p-8 transition-all`}>
       <div className="mx-auto flex flex-col">
         <h1 className="text-lg lg:text-5xl font-bold">IS ANYONE LIVE?</h1>
-        <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className={`${darkMode ? 'text-blue-200 hover:text-blue-300' : 'text-blue-800 hover:text-blue-900'} transition-all`}>captinturtle</a></h2>
+        <div className="m-auto flex gap-2">
+          <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className={`${darkMode ? 'text-blue-200 hover:text-blue-300' : 'text-blue-800 hover:text-blue-900'} transition-all`}>captinturtle</a></h2>
+          <a className="mt-[6px] text-white hover:text-gray-200 transition-all" target="_blank" href="https://github.com/captinturtle1/who-is-live"><FaGithub/></a>
+        </div>
       </div>
       {firstTime ? 
         <div className="flex flex-col m-auto">

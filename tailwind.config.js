@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        '3xl': '2100px'
+      },
       animation: {
         'reverse-spin': 'rspin 1s linear infinite',
         'display-delay': 'displayDelay 50ms linear'

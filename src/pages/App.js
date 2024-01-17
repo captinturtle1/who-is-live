@@ -277,7 +277,7 @@ export default function App() {
             />
           </div>
           <div className="gap-8 flex">
-            <div className={`grid w-screen xl:px-[10vw] grid-cols-1 ${displayThumbnails ? 'lg:grid-cols-3' : 'lg:grid-cols-5'} gap-4`}>
+            <div className={`grid w-screen xl:px-[10vw] grid-cols-1 ${displayThumbnails ? 'lg:grid-cols-3' : 'md:grid-cols-3 lg:grid-cols-5 3xl:grid-cols-7'} gap-4`}>
               {displayOffline ?
                 <>
                   {allData.map(dataObject =>

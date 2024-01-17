@@ -24,7 +24,7 @@ export default function StreamerCard({dataObject, displayThumbnails, darkMode}) 
         className={`${darkMode ? (dataObject.live ? 'bg-blue-500' : 'bg-gray-500') : (dataObject.live ? 'bg-white' : 'bg-gray-400')} ${displayThumbnails ? "p-2" : "p-1"} h-fit rounded gap-2 flex flex-col shadow hover:-translate-y-1 transition-all`}
       >
         {!displayThumbnails ? dataObject.live ? hover ? 
-          <div className='fixed bg-gray-500 bg-opacity-50 p-2 backdrop-blur rounded -translate-x-1 -translate-y-1 w-full min-h-full'>
+          <div className='fixed bg-gray-500 bg-opacity-50 p-2 backdrop-blur rounded -translate-x-1 -translate-y-1 w-full min-h-full animate-display-delay'>
             <h3 className='font-bold'>{dataObject.catagory}</h3>
             <p className='text-sm break-words'>{dataObject.streamTitle}</p>
           </div> : <></> : <></> : <></>

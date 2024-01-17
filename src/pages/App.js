@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 
 import AddRemove from "../components/AddRemove.js";
 import Settings from "../components/Settings.js";
@@ -35,7 +34,7 @@ export default function App() {
   const [firstTime, setFirstTime] = useState(false);
   
   useEffect(() => {
-    getCookies();
+    getStorage();
     ReactGA.send({ hitType: "pageview", page: "/", title: "Home" });
   }, [])
 
@@ -43,21 +42,22 @@ export default function App() {
     setTwitchList([...newData[0]]);
     setYoutubeList([...newData[1]]);
     setKickList([...newData[2]]);
-    setCookies(newData)
+    setStorage(newData);
+    setFirstTime(false);
   }
 
-  const setCookies = (newData) => {
+  const setStorage = (newData) => {
     let twitchData = JSON.stringify(newData[0]);
     let youtubeData = JSON.stringify(newData[1]);
     let kickData = JSON.stringify(newData[2]);
-    Cookies.set('twitch-list', twitchData, { expires: 365 });
-    Cookies.set('youtube-list', youtubeData, { expires: 365 });
-    Cookies.set('kick-list', kickData, { expires: 365 });
+    localStorage.setItem('twitch-list', twitchData);
+    localStorage.setItem('youtube-list', youtubeData);
+    localStorage.setItem('kick-list', kickData);
     retrieveStreamData(newData[0], newData[1], newData[2]);
   }
 
   // 0 = displayOffline, 1 = displayThumbnails, 2 = darkMode
-  const setOptionsCookie = (update, option) => {
+  const setOptionsStorage = (update, option) => {
     let optionsObject = {
       displayOffline: option == 0 ? update : displayOffline,
       displayThumbnails: option == 1 ? update : displayThumbnails,
@@ -66,31 +66,31 @@ export default function App() {
 
     let optionsString = JSON.stringify(optionsObject);
 
-    Cookies.set('user-settings', optionsString, { expires: 365 })
+    localStorage.setItem('user-settings', optionsString)
   }
 
   const handleToggleViewOffline = () => {
     setDisplayOffline(!displayOffline);
-    setOptionsCookie(!displayOffline, 0);
+    setOptionsStorage(!displayOffline, 0);
   }
 
   const handleThumbnailToggle = () => {
     setDisplayThumbnails(!displayThumbnails);
-    setOptionsCookie(!displayThumbnails, 1);
+    setOptionsStorage(!displayThumbnails, 1);
   }
 
   const handleToggleDarkMode = () => {
     setDarkMode(!darkMode);
-    setOptionsCookie(!darkMode, 2);
+    setOptionsStorage(!darkMode, 2);
   }
 
-  const getCookies = () => {
-    let twitchData = Cookies.get('twitch-list');
-    let youtubeData = Cookies.get('youtube-list');
-    let kickData = Cookies.get('kick-list');
-    let optionsData = Cookies.get('user-settings');
+  const getStorage = () => {
+    let twitchData = localStorage.getItem('twitch-list');
+    let youtubeData = localStorage.getItem('youtube-list');
+    let kickData = localStorage.getItem('kick-list');
+    let optionsData = localStorage.getItem('user-settings');
 
-    if (twitchData || youtubeData || kickData || optionsData) {
+    if (twitchData || youtubeData || kickData) {
       setFirstTime(false);
     } else {
       setFirstTime(true);
@@ -254,7 +254,7 @@ export default function App() {
         <div className="flex flex-col m-auto">
           <h1 className="m-atuo text-2xl font-bold">First time?</h1>
           <Button
-            doOnClick={() => setIsAddRemoveOpen(true) || setFirstTime(false)}
+            doOnClick={() => setIsAddRemoveOpen(true)}
             displayText={'Get started!'}
           />
         </div>

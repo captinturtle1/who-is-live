@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
 
 const appId = "1zhazzeh06yvmnb52iiixw5s8e60qk";
 
@@ -9,10 +8,10 @@ export default function TwitchImport() {
     const [currentTwitch, setCurrentTwitch] = useState([]);
 
     useEffect(() => {
-        let twitchData = Cookies.get('twitch-list');
+        let twitchData = localStorage.getItem('twitch-list');
         if (twitchData) {
-            let twitchCookies = JSON.parse(twitchData);
-            setCurrentTwitch([...twitchCookies]);
+            let twitchLS = JSON.parse(twitchData);
+            setCurrentTwitch([...twitchLS]);
         }
 
         if (document.location.hash.includes("access_token")) {
@@ -97,7 +96,7 @@ export default function TwitchImport() {
             if (!currentTwitch.includes(userFollowers[i])) newArray.push(userFollowers[i]);
         }
 
-        Cookies.set('twitch-list', JSON.stringify(newArray), { expires: 365 });
+        localStorage.setItem('twitch-list', JSON.stringify(newArray), { expires: 365 });
         window.location.href = "/";
     }
 

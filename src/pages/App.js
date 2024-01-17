@@ -277,7 +277,7 @@ export default function App() {
             />
           </div>
           <div className="gap-8 flex">
-            <div className="grid w-screen xl:px-[10vw] grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className={`grid w-screen xl:px-[10vw] grid-cols-1 ${displayThumbnails ? 'lg:grid-cols-3' : 'lg:grid-cols-5'} gap-4`}>
               {displayOffline ?
                 <>
                   {allData.map(dataObject =>
@@ -301,7 +301,7 @@ export default function App() {
                   )}
                 </>
               }
-              {fetching ? <ImSpinner2 className="m-auto text-3xl my-5 animate-spin lg:col-span-3"/> : <></>}
+              {fetching ? <ImSpinner2 className={`m-auto text-3xl my-5 animate-spin ${displayThumbnails ? "lg:col-span-3" : "lg:col-span-5"}`}/> : <></>}
             </div>
           </div>
 

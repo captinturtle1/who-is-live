@@ -13,7 +13,7 @@ const ChannelList = ({id, list, handleRemove}) => {
         
         {list.map((value, index) => 
           <div key={value} onClick={() => handleRemove(id, index)} className="flex bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer px-2 rounded">
-            <div className="">{value}</div>
+            <div className="select-none">{value}</div>
           </div>
         )}
       </div>

@@ -305,7 +305,7 @@ export default function App() {
                   )}
                 </>
               }
-              {fetching ? <ImSpinner2 className={`m-auto text-3xl my-5 animate-spin ${displayThumbnails ? "lg:col-span-3" : "lg:col-span-5"}`}/> : <></>}
+              {fetching ? <ImSpinner2 className={`m-auto text-3xl my-5 animate-spin ${displayThumbnails ? "lg:col-span-3" : "md:col-span-3 lg:col-span-5 3xl:col-span-7"}`}/> : <></>}
             </div>
           </div>
 

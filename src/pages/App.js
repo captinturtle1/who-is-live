@@ -305,7 +305,18 @@ export default function App() {
                   )}
                 </>
               }
-              {fetching ? <ImSpinner2 className={`m-auto text-3xl my-5 animate-spin ${displayThumbnails ? "lg:col-span-3" : "md:col-span-3 lg:col-span-5 3xl:col-span-7"}`}/> : <></>}
+              {fetching ? (
+                <ImSpinner2 className={`m-auto text-3xl my-5 animate-spin ${displayThumbnails ? "lg:col-span-3" : "md:col-span-3 lg:col-span-5 3xl:col-span-7"}`}/>
+              ) : ( 
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.who_is_live_app"
+                  target="_blank"
+                  className={`m-auto text my-5 hover:text-zinc-200 transition-all ${displayThumbnails ? "lg:col-span-3" : "md:col-span-3 lg:col-span-5 3xl:col-span-7"}`}
+                >
+                  Download the Android app!
+                </a>
+              )}
+              
             </div>
           </div>
 

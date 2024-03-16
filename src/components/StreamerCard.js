@@ -54,7 +54,14 @@ export default function StreamerCard({dataObject, displayThumbnails, darkMode}) 
               }
             </div>
           </div>
-        {displayThumbnails ? (dataObject.streamThumbnail ? <img className="rounded" src={dataObject.streamThumbnail + '?' + new Date().getTime()}/> : <></>) : <></>}
+        {displayThumbnails ?
+          dataObject.streamThumbnail ? 
+            dataObject.platform == 1 ? 
+              <img className="rounded" src={dataObject.streamThumbnail}/>
+            : <img className="rounded" src={dataObject.streamThumbnail + '?' + new Date().getTime()}/>
+          : <></>
+        : <></>
+        }
       </a>
     )
   }

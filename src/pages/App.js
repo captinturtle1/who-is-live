@@ -15,6 +15,13 @@ import ReactGA from "react-ga4";
 const TRACKING_ID = "G-WXSX7SL0MF";
 ReactGA.initialize(TRACKING_ID);
 
+const twitchAPIEndpoint = "https://twitch.api.isanyonelive.xyz";
+const youtubeAPIEndpoint = "https://youtube.api.isanyonelive.xyz";
+const kickAPIEndpoint = "https://kick.api.isanyonelive.xyz";
+
+const projectGitHubURL = "https://github.com/captinturtle1/who-is-live";
+const myTwitterURL = "https://twitter.com/captinturt1e";
+
 export default function App() {
   const [twitchList, setTwitchList] = useState([]);
   const [youtubeList, setYoutubeList] = useState([]);
@@ -140,7 +147,7 @@ export default function App() {
     if (twitchData.length > 0) {
       setFetching(true);
       fetchingTwitch = true;
-      fetch('https://twitch.api.isanyone.live/', {
+      fetch(twitchAPIEndpoint, {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -176,7 +183,7 @@ export default function App() {
     if (youtubeData.length > 0) {
       setFetching(true);
       fetchingYoutube = true;
-      fetch('https://youtube.api.isanyone.live/', {
+      fetch(youtubeAPIEndpoint, {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -212,7 +219,7 @@ export default function App() {
     if (kickData.length > 0) {
       setFetching(true);
       fetchingKick = true;
-      fetch('https://kick.api.isanyone.live/', {
+      fetch(kickAPIEndpoint, {
         mode: 'cors',
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -250,8 +257,8 @@ export default function App() {
       <div className="mx-auto flex flex-col">
         <h1 className="text-lg lg:text-5xl font-bold">IS ANYONE LIVE?</h1>
         <div className="m-auto flex gap-2">
-          <h2 className="m-auto">made by <a href="https://twitter.com/captinturt1e" target="_blank" className={`${darkMode ? 'text-blue-200 hover:text-blue-300' : 'text-blue-800 hover:text-blue-900'} transition-all`}>captinturtle</a></h2>
-          <a className="mt-[6px] text-white hover:text-gray-200 transition-all" target="_blank" href="https://github.com/captinturtle1/who-is-live"><FaGithub/></a>
+          <h2 className="m-auto">made by <a href={myTwitterURL} target="_blank" className={`${darkMode ? 'text-blue-200 hover:text-blue-300' : 'text-blue-800 hover:text-blue-900'} transition-all`}>captinturtle</a></h2>
+          <a className="mt-[6px] text-white hover:text-gray-200 transition-all" target="_blank" href={projectGitHubURL}><FaGithub/></a>
         </div>
       </div>
       {firstTime ? 
@@ -305,18 +312,6 @@ export default function App() {
                   )}
                 </>
               }
-              {fetching ? (
-                <ImSpinner2 className={`m-auto text-3xl my-5 animate-spin ${displayThumbnails ? "lg:col-span-3" : "md:col-span-3 lg:col-span-5 3xl:col-span-7"}`}/>
-              ) : ( 
-                <a
-                  href="https://play.google.com/store/apps/details?id=com.who_is_live_app"
-                  target="_blank"
-                  className={`m-auto text my-5 hover:text-zinc-200 transition-all ${displayThumbnails ? "lg:col-span-3" : "md:col-span-3 lg:col-span-5 3xl:col-span-7"}`}
-                >
-                  Download the Android app!
-                </a>
-              )}
-              
             </div>
           </div>
 

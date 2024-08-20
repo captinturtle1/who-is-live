@@ -6,6 +6,8 @@ import { RiKickFill } from 'react-icons/ri';
 const youtubeMax = 5;
 const kickMax = 50
 
+const twtichAuthURL = "https://id.twitch.tv/oauth2/authorize?response_type=token&redirect_uri=https://isanyonelive.xyz/twitchimport&scope=user:read:follows&client_id=1zhazzeh06yvmnb52iiixw5s8e60qk";
+
 const ChannelList = ({id, list, handleRemove}) => {
   return (
     <>{list.length > 0 ? <h2 className="mx-auto font-bold mt-4 mb-2">Click to remove</h2> : <></>}
@@ -133,7 +135,7 @@ export default function AddRemove({setIsAddRemoveOpen, setLists, currentLists}) 
         <div className={`${platformSelected == 0 ? "bg-violet-400" : platformSelected == 1 ? "bg-red-400" : "bg-green-400"} flex flex-col p-16`}>
           {platformSelected == 0 ?
             <a 
-              href="https://id.twitch.tv/oauth2/authorize?response_type=token&redirect_uri=https://isanyone.live/twitchimport&scope=user:read:follows&client_id=1zhazzeh06yvmnb52iiixw5s8e60qk"
+              href={twtichAuthURL}
               className="bg-blue-500 hover:bg-blue-600 transition-all rounded p-2 mb-2 w-fit m-auto flex items-center gap-1">
                 <BsTwitch/> Import with Twitch
             </a>  

@@ -1,8 +1,8 @@
 # IsAnyone.Live - Frontend
 
-Welcome to IsAnyone.Live! This web application allows users to track streamers from streaming platforms such as Kick, Youtube, and Twitch. It provides information such as their view count, thumbnail, stream title, game category, and importantly, whether or not they are currently live.
+Welcome to IsAnyoneLive.xyz! This web application allows users to track streamers from streaming platforms such as Kick, Youtube, and Twitch. It provides information such as their view count, thumbnail, stream title, game category, and importantly, whether or not they are currently live.
 
-**Visit the website to explore the application online [Here](https://IsAnyone.Live).**
+**Visit the website to explore the application online [Here](https://IsAnyoneLive.xyz).**
 
 **Check out the IsAnyone.Live mobile app on the Google Play Store [Here](https://play.google.com/store/apps/details?id=com.who_is_live_app).**
 
